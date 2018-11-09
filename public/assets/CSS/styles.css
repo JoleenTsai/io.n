@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(241, 239, 239);
+}
+.btn {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.nav-wrapper {
+  margin-bottom: 20px;
+  background-color: white;
+}
+.brand-logo{
+  color: rgb(77, 77, 253);
+}
+.table-of-contents {
+  background-color: white;
+  margin-top: 20px;
+  width: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-right-color: 1px solid lightgrey;
+   }
