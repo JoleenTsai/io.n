@@ -9,8 +9,9 @@ body {
   margin-bottom: 20px;
   background-color: white;
 }
-.navlogo{
+.brand-logo.logo-text{
   color: rgb(77, 77, 253);
+  margin-left: 10px; 
 }
 .table-of-contents {
   background-color: white;
@@ -21,3 +22,6 @@ body {
   text-overflow: ellipsis;
   border-right-color: 1px solid lightgrey;
    }
+.nav-links {
+  color: grey;
+}
