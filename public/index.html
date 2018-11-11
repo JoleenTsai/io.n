@@ -13,7 +13,11 @@
   <title>io.n</title>
 </head>
 <style>
+  html {
+    min-height: 100vh;
+  }
   body {
+    min-height: 100vh;
     background-image: url("./assets/images/green-brown.png");
   }
 </style>
@@ -21,16 +25,13 @@
 <body>
   <div class="container">
     <div class="row">
-      <div class="col offset-l6 offset-m6 s12" style="background-color: white">
+      <div class="col offset-l6 offset-m6 s12 m6 l6" style="height: 100vh; background-color: white;">
+
         <h1>io.n</h1>
-      </div>
-      <div class="row">
-        <div class="col offset-l6 offset-m6 s12" style="background-color: white">
+
           <p>Welcome! Please log into your account.</p>
-        </div>
-      <div class="row">
-        <div class="col offset-l6 offset-m6 s12" style="background-color: white">
-          <form class="col s12">
+
+          <form>
             <div class="row">
               <div class="input-field col s6">
                 <input id="first_name" type="text" class="validate">
@@ -43,9 +44,7 @@
                 </div>
               </div>
           </form>
-      </div>
-          <div class="row">
-            <div class="col offset-l6 offset-m6 s12" style="background-color: white">
+
               <form action="#">
                 <p>
                   <label>
@@ -55,14 +54,12 @@
                 </p>
               </form>
               <a href="#">Forgot Password</a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col offset-l6 offset-m6 s12" style="background-color: white">
+
+
+
               <a class="waves-effect waves-light btn">Log In</a>
               <a class="waves-effect waves-light btn">Sign Up</a>
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
