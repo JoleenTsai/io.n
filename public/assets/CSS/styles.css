@@ -1,3 +1,16 @@
+.indexBtn {
+  background-color: #9bd3b4;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.indexBtn:hover {
+  background-color: #a1bbd0;
+  border-radius: 10px;
+}
+.new.badge {
+background-color: 
+}
 body {
   background-color: rgb(241, 239, 239);
 }
