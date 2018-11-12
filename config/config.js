@@ -2,7 +2,7 @@ module.exports = {
   "development": {
     "username": "root",
     "password": "rootroot",
-    "database": "surfboard_db",
+    "database": "brewery_db",
     "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql"
@@ -10,7 +10,7 @@ module.exports = {
   "test": {
     "username": "root",
     "password": "rootroot",
-    "database": "surfboard_db",
+    "database": "brewery_db",
     "host": "127.0.0.1",
     "port": 3306,
     "dialect": "mysql"
