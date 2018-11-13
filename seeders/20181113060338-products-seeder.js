@@ -12,7 +12,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Products', [{
-      product_id: 1,
       name: "Req.Body",
       type: "IPA",
       abv: 0.062,
@@ -39,7 +38,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 2,
       name: "Lorem",
       type: "IPA",
       abv: 0.065,
@@ -66,7 +64,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 3,
       name: "Lorem Zombie Attack",
       type: "DIPA",
       abv: 0.08,
@@ -93,7 +90,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 4,
       name: "API IPA",
       type: "DIPA",
       abv: 0.0825,
@@ -120,7 +116,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 5,
       name: "Dev from Hell",
       type: "TIPA",
       abv: 0.11,
@@ -147,7 +142,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 6,
       name: "Curly Braces",
       type: "SOUR CIDER",
       abv: 0.08,
@@ -174,7 +168,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 7,
       name: "Reactor Cider",
       type: "SOUR CIDER",
       abv: 0.08,
@@ -201,7 +194,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 8,
       name: "Java",
       type: "STOUTS",
       abv: 0.055,
@@ -228,7 +220,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 9,
       name: "BootStraping",
       type: "PALE ALE",
       abv: 0.05,
@@ -255,7 +246,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 10,
       name: "Express",
       type: "PALE ALE",
       abv: 0.0575,
@@ -282,7 +272,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 11,
       name: "Nodemon",
       type: "BLONDE ALE",
       abv: 0.0475,
@@ -309,7 +298,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 12,
       name: "JSON's Amber",
       type: "AMBER",
       abv: 0.07,
@@ -336,7 +324,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 13,
       name: "onClick",
       type: "PILSNER",
       abv: 0.063,
@@ -363,7 +350,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 14,
       name: "Git Lager",
       type: "LAGER",
       abv: 0.055,
@@ -390,7 +376,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 15,
       name: "SAiSSon",
       type: "SAISON",
       abv: 0.092,
@@ -417,7 +402,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 16,
       name: "AJAX Hefe",
       type: "HEFEWEIZEN",
       abv: 0.074,
@@ -444,7 +428,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 17,
       name: "Fruit Loop",
       type: "WHEAT",
       abv: 0.065,
@@ -471,7 +454,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 18,
       name: "innerHTML",
       type: "BROWN",
       abv: 0.08,
@@ -498,7 +480,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 19,
       name: "Boolean",
       type: "AMBER",
       abv: 0.0725,
@@ -525,7 +506,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      product_id: 20,
       name: "Array",
       type: "LAGER",
       abv: 0.068,

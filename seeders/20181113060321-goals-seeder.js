@@ -12,7 +12,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Goals', [{
-      goals_id: 1,
       Date: "2017-01-01",
       day_average_qty_goal: 49,
       day_average_sales_goal: 600.5941,
@@ -20,7 +19,6 @@ module.exports = {
       updatedAt: new Date()
     },
       {
-        goals_id: 2,
         Date: "2017-02-01",
         day_average_qty_goal: 44,
         day_average_sales_goal: 596.4026,
@@ -28,7 +26,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 3,
         Date: "2017-03-01",
         day_average_qty_goal: 79,
         day_average_sales_goal: 1042.7957,
@@ -36,7 +33,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 4,
         Date: "2017-04-01",
         day_average_qty_goal: 48,
         day_average_sales_goal: 609.415,
@@ -44,7 +40,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 5,
         Date: "2017-05-01",
         day_average_qty_goal: 50,
         day_average_sales_goal: 635.0276,
@@ -52,7 +47,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 6,
         Date: "2017-06-01",
         day_average_qty_goal: 47,
         day_average_sales_goal: 648.256,
@@ -60,7 +54,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 7,
         Date: "2017-07-01",
         day_average_qty_goal: 98,
         day_average_sales_goal: 1278.131,
@@ -68,7 +61,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 8,
         Date: "2017-08-01",
         day_average_qty_goal: 99,
         day_average_sales_goal: 1259.5907,
@@ -76,7 +68,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 9,
         Date: "2017-09-01",
         day_average_qty_goal: 48,
         day_average_sales_goal: 611.8918,
@@ -84,7 +75,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 10,
         Date: "2017-10-01",
         day_average_qty_goal: 98,
         day_average_sales_goal: 1268.8454,
@@ -92,7 +82,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 11,
         Date: "2017-11-01",
         day_average_qty_goal: 92,
         day_average_sales_goal: 1129.3192,
@@ -100,7 +89,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 12,
         Date: "2017-12-01",
         day_average_qty_goal: 98,
         day_average_sales_goal: 1346.1815,
@@ -108,7 +96,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 13,
         Date: "2018-01-01",
         day_average_qty_goal: 50,
         day_average_sales_goal: 613.5756,
@@ -116,7 +103,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 14,
         Date: "2018-02-01",
         day_average_qty_goal: 44,
         day_average_sales_goal: 546.9634,
@@ -124,7 +110,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 15,
         Date: "2018-03-01",
         day_average_qty_goal: 93,
         day_average_sales_goal: 1230.8024,
@@ -132,7 +117,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 16,
         Date: "2018-04-01",
         day_average_qty_goal: 47,
         day_average_sales_goal: 615.3374,
@@ -140,7 +124,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 17,
         Date: "2018-05-01",
         day_average_qty_goal: 49,
         day_average_sales_goal: 649.631,
@@ -148,7 +131,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 18,
         Date: "2018-06-01",
         day_average_qty_goal: 97,
         day_average_sales_goal: 1243.9523,
@@ -156,7 +138,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 19,
         Date: "2018-07-01",
         day_average_qty_goal: 98,
         day_average_sales_goal: 1216.6613,
@@ -164,7 +145,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 20,
         Date: "2018-08-01",
         day_average_qty_goal: 99,
         day_average_sales_goal: 1288.381,
@@ -172,7 +152,6 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        goals_id: 21,
         Date: "2018-09-01",
         day_average_qty_goal: 47,
         day_average_sales_goal: 595.6623,

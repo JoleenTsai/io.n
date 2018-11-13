@@ -13,7 +13,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Employees', [{
-      employee_id: 1,
       first_name: "Garrett",
       last_name: "Fermo",
       full_name: "Garrett Fermo",
@@ -22,7 +21,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      employee_id: 2,
       first_name: "Adam",
       last_name: "Openbrier",
       full_name: "Adam Openbrier",
@@ -31,7 +29,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      employee_id: 3,
       first_name: "Jean",
       last_name: "Chung",
       full_name: "Jean Chung",
@@ -40,7 +37,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      employee_id: 4,
       first_name: "Joleen",
       last_name: "Tsai",
       full_name: "Joleen Tsai",
@@ -49,7 +45,6 @@ module.exports = {
       updatedAt: new Date()
     },
     {
-      employee_id: 5,
       first_name: "Radley",
       last_name: "Eakle",
       full_name: "Radley Eakle",
