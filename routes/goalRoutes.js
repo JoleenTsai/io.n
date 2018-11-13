@@ -6,7 +6,7 @@ module.exports = app => {
         db.Goals.findAll({
             include: [db.Sales]
         })
-        .then(goals => res.json(goals)
+        .then(goals => res.json(goals))
         .catch(e => console.log(e))
     })
 
@@ -23,14 +23,14 @@ module.exports = app => {
     })
 
     // Add new goal
-    app.post('goals'), (req, res) => {
+    app.post('goals', (req, res) => {
         db.Goals.create(req.body)
             .then(r => res.sendStatus(200))
             .catch(e => console.log(e))
     })
 
     // Update goal
-    app.put('goals/:date'), (req, res) => {
+    app.put('goals/:date', (req, res) => {
         db.Goals.update(
             req.body,
             {
