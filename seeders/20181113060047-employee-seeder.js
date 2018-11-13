@@ -13,45 +13,45 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Employees', [{
-      first_name: "Garrett",
-      last_name: "Fermo",
-      full_name: "Garrett Fermo",
-      title: "Bartender",
-      createdAt: new Date(),
-      updatedAt: new Date()
+      "first_name": "Garrett",
+      "last_name": "Fermo",
+      "full_name": "Garrett Fermo",
+      "title": "Bartender",
+      "createdAt": new Date(),
+      "updatedAt": new Date()
     },
-    {
-      first_name: "Adam",
-      last_name: "Openbrier",
-      full_name: "Adam Openbrier",
-      title: "Manager",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      first_name: "Jean",
-      last_name: "Chung",
-      full_name: "Jean Chung",
-      title: "Supervisor",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      first_name: "Joleen",
-      last_name: "Tsai",
-      full_name: "Joleen Tsai",
-      title: "Bartender",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    },
-    {
-      first_name: "Radley",
-      last_name: "Eakle",
-      full_name: "Radley Eakle",
-      title: "Bartender",
-      createdAt: new Date(),
-      updatedAt: new Date()
-    }])
+      {
+        "first_name": "Adam",
+        "last_name": "Openbrier",
+        "full_name": "Adam Openbrier",
+        "title": "Manager",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Jean",
+        "last_name": "Chung",
+        "full_name": "Jean Chung",
+        "title": "Supervisor",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Joleen",
+        "last_name": "Tsai",
+        "full_name": "Joleen Tsai",
+        "title": "Bartender",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Radley",
+        "last_name": "Eakle",
+        "full_name": "Radley Eakle",
+        "title": "Bartender",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      }])
   },
 
   down: (queryInterface, Sequelize) => {

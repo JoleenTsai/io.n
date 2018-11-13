@@ -12,15 +12,15 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-      return queryInterface.bulkInsert('Users', [{
-          first_name: "Quinton",
-          last_name: "Fults",
-          user_name: "gfults",
-          password: "fults123",
-          email: "qfults@lot17Abrewing.com",
-          createdAt: new Date(),
-          updatedAt: new Date()
-      }]);
+    return queryInterface.bulkInsert('Users', [{
+      "first_name": "Quinton",
+      "last_name": "Fults",
+      "user_name": "gfults",
+      "password": "fults123",
+      "email": "qfults@lot17Abrewing.com",
+      "createdAt": new Date(),
+      "updatedAt": new Date()
+    }]);
   },
 
   down: (queryInterface, Sequelize) => {
