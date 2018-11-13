@@ -1,6 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Inventory', {
-    inventory_id: DataTypes.INTEGER,
+  return sequelize.define('Inventories', {
     date: DataTypes.DATEONLY,
     beer_name: DataTypes.STRING,
     inventory_oz: DataTypes.FLOAT,
