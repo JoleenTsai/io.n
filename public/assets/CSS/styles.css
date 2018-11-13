@@ -1,5 +1,30 @@
+/* index page */
+.indexBtn {
+  background-color: #9bd3b4;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.indexBtn:hover {
+  background-color: #a1bbd0;
+  border-radius: 10px;
+  color: white;
+}
+.rememberMe{
+  margin: 0px 10px 15px 10px;
+}
+/* universal */
 body {
   background-color: rgb(241, 239, 239);
+}
+a {
+  color: #d1a827;
+}
+a:hover {
+  color: #9bd3b4;
+}
+a:visited {
+  color: rgb(169, 182, 125);
 }
 .btn {
   margin-top: 0px;
@@ -10,7 +35,7 @@ body {
   background-color: white;
 }
 .brand-logo.logo-text{
-  color: rgb(77, 77, 253);
+  color: #a1bbd0;
   margin-left: 10px; 
 }
 .table-of-contents {
@@ -21,7 +46,14 @@ body {
   white-space: nowrap;
   text-overflow: ellipsis;
   border-right-color: 1px solid lightgrey;
-   }
+}
 .nav-links {
   color: grey;
+}
+#alerts {
+  background-color:#d1a827;
+}
+.card{
+margin-left: 10px;
+margin-right: 10px;
 }
