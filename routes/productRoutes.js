@@ -4,7 +4,7 @@ module.exports = app => {
     // All Products
     app.get('/products', (req, res) => {
         db.Products.findAll({})
-            .then(products => res.json(products)
+            .then(products => res.json(products))
                 .catch(e => console.log(e))
     })
 
@@ -20,14 +20,14 @@ module.exports = app => {
     })
 
     // Add new product
-    app.post('/products'), (req, res) => {
+    app.post('/products', (req, res) => {
         db.Products.create(req.body)
             .then(r => res.sendStatus(200))
             .catch(e => console.log(e))
     })
 
     // Update product
-    app.put('/products/:id'), (req, res) => {
+    app.put('/products/:id', (req, res) => {
         db.Products.update(
             req.body,
             {

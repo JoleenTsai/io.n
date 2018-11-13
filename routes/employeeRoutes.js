@@ -6,7 +6,7 @@ module.exports = app => {
         db.Employees.findAll({
             include: [db.Sales]
         })
-        .then(employees => res.json(employees)
+        .then(employees => res.json(employees))
         .catch(e => console.log(e))
     })
 
@@ -23,14 +23,14 @@ module.exports = app => {
     })
 
     // Add new employee
-    app.post('/employees'), (req, res) => {
+    app.post('/employees', (req, res) => {
         db.Employees.create(req.body)
         .then(r => res.sendStatus(200))
         .catch(e => console.log(e))
     })
 
     // Update employee
-    app.put('/employees/:id'), (req, res) => {
+    app.put('/employees/:id', (req, res) => {
         db.Employees.update(
             req.body,
             {
@@ -53,5 +53,5 @@ module.exports = app => {
             .then(r => res.sendStatus(200))
             .catch(e => console.log(e))
 
-    
+    })
 }
