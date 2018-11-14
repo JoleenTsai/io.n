@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('Sales', {
+  const Sale = sequelize.define('Sales', {
     employee_name: DataTypes.STRING,
     employee_title: DataTypes.STRING,
     employee_id: DataTypes.INTEGER,
@@ -16,4 +16,11 @@ module.exports = (sequelize, DataTypes) => {
     profit: DataTypes.FLOAT,
     cost: DataTypes.FLOAT
   })
+
+  Sale.associate = models => {
+    Sale.belongsTo(models.Employees, { foreignKey: { allowNull: false } })
+    Sale.belongsTo(models.Products, { foreignKey: { allowNull: false } })
+  }
+
+  return Sale
 }
