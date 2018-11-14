@@ -4,7 +4,6 @@ module.exports = app => {
     // All Employees
     app.get('/employees', (req, res) => {
         db.Employees.findAll({
-            include: [db.Sales]
         })
         .then(employees => res.json(employees))
         .catch(e => console.log(e))
@@ -14,9 +13,8 @@ module.exports = app => {
     app.get('/employees/:id', (req, res) => {
         db.Employees.findOne({
             where: {
-                employee_id: req.params.id
-            },
-            include: [db.Sales]
+                id: req.params.id
+            }
         })
         .then(employee => res.json(employee))
         .catch(e => console.log(e))
@@ -35,7 +33,7 @@ module.exports = app => {
             req.body,
             {
                 where: {
-                    employee_id: req.params.id
+                    id: req.params.id
                 }
             }
         )
@@ -47,7 +45,7 @@ module.exports = app => {
     app.delete("/employees/:id", function (req, res) {
         db.Employees.destroy({
             where: {
-                employee_id: req.params.id
+                id: req.params.id
             }
         })
             .then(r => res.sendStatus(200))
