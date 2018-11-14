@@ -10,7 +10,8 @@
   border-radius: 10px;
   color: white;
 }
-.rememberMe{
+.flex-item {
+  justify-content: space-around;
   margin: 0px 10px 15px 10px;
 }
 /* universal */
