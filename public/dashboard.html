@@ -54,36 +54,53 @@
       <!-- main content -->
       <div class="mainContent center-align">
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Today's Bookings<i class="material-icons right">more_vert</i></span>
+            <span class="card-title activator grey-text text-darken-4">Today's Sales<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="todaySales" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Leaders<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="employeeSales" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Top Five Items Sold <i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Units Sold</th>
+                  <th>Profit</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Git Lager</td>
+                  <td>20 kegs</td>
+                  <td>$12,600</td>
+                </tr>
+                <tr>
+                  <td>Alan</td>
+                  <td>Jellybean</td>
+                  <td>$3.76</td>
+                </tr>
+                <tr>
+                  <td>Jonathan</td>
+                  <td>Lollipop</td>
+                  <td>$7.00</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Goals<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
@@ -92,6 +109,76 @@
       </div>
       <!-- Compiled and minified JavaScript -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+      <script>
+        // Today's Sales
+        let salesToday = document.getElementById("todaySales");
+        let todaySales = new Chart(salesToday, {
+          type: 'bar',
+          data: {
+            labels: ["12pm", '', "2pm", '', "4pm", '', "6pm", '', "8pm", '', "10pm", '', "12am"],
+            datasets: [{
+              label: 'Sales by hour',
+              data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
+              backgroundColor: [
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)'
+              ]
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+
+        // Sales by Employee
+        let empSales = document.getElementById("employeeSales");
+        let employeeSales = new Chart(empSales, {
+          type: 'bar',
+          data: {
+            labels: ["Garrett Fermo", "Radley Eakle", "Adam Openbrier", "Joleen Tsai", "Jean Chung"],
+            datasets: [{
+              label: 'Sales by Employee',
+              data: [985, 728, 507, 467, 456],
+              backgroundColor: [
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+              ]
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+
+        // 
+      </script>
 </body>
 
 </html>
