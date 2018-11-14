@@ -12,15 +12,53 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Users', [{
-      "first_name": "Quinton",
-      "last_name": "Fults",
-      "user_name": "gfults",
-      "password": "fults123",
-      "email": "qfults@lot17Abrewing.com",
-      "createdAt": new Date(),
-      "updatedAt": new Date()
-    }]);
+    return queryInterface.bulkInsert('Users', [
+      {
+        "first_name": "Garrett",
+        "last_name": "Fermo",
+        "user_name": "GFermo",
+        "password": "Fermo123",
+        "email": "Garrett.Fermo@lot17Abrewing.com",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Adam",
+        "last_name": "Openbrier",
+        "user_name": "AOpenbrier",
+        "password": "Openbrier123",
+        "email": "Adam.Openbrier@lot17Abrewing.com",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Jean",
+        "last_name": "Chung",
+        "user_name": "JChung",
+        "password": "Chung123",
+        "email": "Jean.Chung@lot17Abrewing.com",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Joleen",
+        "last_name": "Tsai",
+        "user_name": "JTsai",
+        "password": "Tsai123",
+        "email": "Joleen.Tsai@lot17Abrewing.com",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Radley",
+        "last_name": "Eakle",
+        "user_name": "REakle",
+        "password": "Eakle123",
+        "email": "Radley.Eakle@lot17Abrewing.com",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      }
+    ] );
   },
 
   down: (queryInterface, Sequelize) => {

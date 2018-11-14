@@ -12,46 +12,48 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('Employees', [{
-      "first_name": "Garrett",
-      "last_name": "Fermo",
-      "full_name": "Garrett Fermo",
-      "title": "Bartender",
-      "createdAt": new Date(),
-      "updatedAt": new Date()
-    },
+    return queryInterface.bulkInsert('Employees', [
       {
-        "first_name": "Adam",
-        "last_name": "Openbrier",
-        "full_name": "Adam Openbrier",
+        "first_name": "Alessandro",
+        "last_name": "Maclaine",
+        "full_name": "Alessandro Maclaine",
+        "title": "Bartender",
+        "createdAt": new Date(),
+        "updatedAt": new Date()
+      },
+      {
+        "first_name": "Quinton",
+        "last_name": "Fults",
+        "full_name": "Quinton Fults",
         "title": "Manager",
         "createdAt": new Date(),
         "updatedAt": new Date()
       },
       {
-        "first_name": "Jean",
-        "last_name": "Chung",
-        "full_name": "Jean Chung",
+        "first_name": "Mark",
+        "last_name": "Arranz",
+        "full_name": "Mark Arranz",
         "title": "Supervisor",
         "createdAt": new Date(),
         "updatedAt": new Date()
       },
       {
-        "first_name": "Joleen",
-        "last_name": "Tsai",
-        "full_name": "Joleen Tsai",
+        "first_name": "Laura",
+        "last_name": "Salcido",
+        "full_name": "Laura Salcido",
         "title": "Bartender",
         "createdAt": new Date(),
         "updatedAt": new Date()
       },
       {
-        "first_name": "Radley",
-        "last_name": "Eakle",
-        "full_name": "Radley Eakle",
+        "first_name": "Andy",
+        "last_name": "Roush",
+        "full_name": "Andy Roush",
         "title": "Bartender",
         "createdAt": new Date(),
         "updatedAt": new Date()
-      }])
+      }
+    ] )
   },
 
   down: (queryInterface, Sequelize) => {
