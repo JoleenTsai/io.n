@@ -17,7 +17,7 @@
   <div class="navbar-fixed">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a" width="235px" height="65px"></i></a>
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-color-scheme.png" alt="lot17a" width="235px" height="65px"></i></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
           <li><a href="#" class="nav-links">Username</a></li>
@@ -53,44 +53,165 @@
       <!-- main content -->
       <div class="mainContent center-align">
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Today's Sales<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="todaySales" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Top Five Items Sold<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="topFive" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Summaries<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="salesSumm" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Goals<i class="material-icons right">more_vert</i></span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="salesGoals" width="400" height="400"></canvas>
           </div>
         </div>
       </div>
       <!-- Compiled and minified JavaScript -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-</body>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+      <script>
+        // Today's Sales
+        let salesToday = document.getElementById("todaySales");
+        let todaySales = new Chart(salesToday, {
+          type: 'bar',
+          data: {
+            labels: ["12pm", '', "2pm", '', "4pm", '', "6pm", '', "8pm", '', "10pm", '', "12am"],
+            datasets: [{
+              label: 'Sales by hour',
+              data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
+              backgroundColor: [
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)'
+              ]
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+
+        // Top 5 Items
+        let topFive = document.getElementById("topFive");
+        let topFiveItems = new Chart(topFive, {
+          type: 'bar',
+          data: {
+            labels: ["Beer 1", "Beer 2", "Beer 3", "Beer 4", "Beer 5"],
+            datasets: [{
+              label: 'Top 5 Items Sold',
+              data: [985, 728, 507, 467, 456],
+              backgroundColor: [
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+                'rgb(161, 187, 208)',
+              ]
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+        // Sales Summary
+        let salesSummary = document.getElementById("salesSumm");
+        let salesSumm = new Chart(salesSummary, {
+          type: 'bar',
+          data: {
+            labels: ["Summary 1", "Summary 2", "Summary 3", "Summary 4", "Summary 5"],
+            datasets: [{
+              label: 'Sales Summary',
+              data: [985, 728, 507, 467, 456],
+              backgroundColor: [
+                'rgb(244, 231, 215)',
+                'rgb(244, 231, 215)',
+                'rgb(244, 231, 215)',
+                'rgb(244, 231, 215)',
+                'rgb(244, 231, 215)',
+              ]
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+        // Sales Goals
+        let sGoals = document.getElementById("salesGoals");
+        let salesGoals = new Chart(sGoals, {
+          type: 'bar',
+          data: {
+            labels: ["Achievement 1", "Achievement 2", "Achievement 3", "Achievement 4", "Achievement 5"],
+            datasets: [{
+              label: 'Sales Goals',
+              data: [985, 728, 507, 467, 456],
+              backgroundColor: [
+                'rgb(63, 66, 52)',
+                'rgb(63, 66, 52)',
+                'rgb(63, 66, 52)',
+                'rgb(63, 66, 52)',
+                'rgb(63, 66, 52)',
+              ]
+            }]
+          },
+          options: {
+            scales: {
+              yAxes: [{
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+            }
+          }
+        });
+
+        // 
+      </script>
+
+    </body>
+
+
 
 </html>
