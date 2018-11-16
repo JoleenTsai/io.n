@@ -17,7 +17,8 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-color-scheme.png" alt="lot17a" width="235px" height="65px"></i></a>
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-color-scheme.png"
+            alt="lot17a" width="235px" height="65px"></i></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
           <li><a href="#" class="nav-links">Username</a></li>
@@ -86,7 +87,7 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
       <script>
         // Today's Sales
-       let salesToday = document.getElementById("todaySales");
+        let salesToday = document.getElementById("todaySales");
         let todaySales = new Chart(salesToday, {
           type: 'line',
           data: {
@@ -196,9 +197,40 @@
         });
 
         // 
+
+        // Fetch all of the sales data
+
+        fetch('/sales/month')
+          .then(r => r.json())
+          .then(r => {
+            console.log(r)
+          })
+          .catch(e => console.log(e))
+
+        fetch('/sales/week')
+          .then(r => r.json())
+          .then(r => {
+            console.log(r)
+          })
+          .catch(e => console.log(e))
+
+
+        fetch('/sales/yesterday')
+          .then(r => r.json())
+          .then(r => {
+            console.log(r)
+          })
+          .catch(e => console.log(e))
+
+        fetch('/sales/today')
+          .then(r => r.json())
+          .then(r => {
+            console.log(r)
+          })
+          .catch(e => console.log(e))
       </script>
 
-    </body>
+</body>
 
 
 
