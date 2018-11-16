@@ -38,8 +38,10 @@ module.exports = app => {
 
         db.Sales.findAll({
             where: {
-                [Op.gte]: startDate,
-                [Op.lte]: endDate
+                transaction_date: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
+                }
             },
             include: [db.Products, db.Employees]
         })
