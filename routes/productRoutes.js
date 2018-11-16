@@ -12,7 +12,7 @@ module.exports = app => {
     app.get('/products/:id', (req, res) => {
         db.Products.findOne({
             where: {
-                product_id: req.params.id
+                id: req.params.id
             }
         })
             .then(product => res.json(product))
@@ -32,7 +32,7 @@ module.exports = app => {
             req.body,
             {
                 where: {
-                    product_id: req.params.id
+                    id: req.params.id
                 }
             }
         )
@@ -44,12 +44,11 @@ module.exports = app => {
     app.delete("/products/:id", function (req, res) {
         db.Products.destroy({
             where: {
-                product_id: req.params.id
+                id: req.params.id
             }
         })
             .then(r => res.sendStatus(200))
             .catch(e => console.log(e))
 
     })
-
 }
