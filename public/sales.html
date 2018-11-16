@@ -7,8 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="./assets/CSS/reset.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <link rel="stylesheet" href="./assets/CSS/styles.css">
   <title>io.n</title>
 </head>
@@ -47,12 +48,47 @@
             <a href="goals.html" class="">Goals</a>
           </li>
         </ul>
+
+
+        <div class="date-filter" style="margin-top: 10px;">
+
+          <div class="row">
+          <label style="margin-top: 4px;">Date Filter</label>
+          <select style="margin-top: 4px" class="browser-default">
+            <option value="" disabled selected>select</option>
+            <option value="today">Today</option>
+            <option value="yesterday">Yesterday</option>
+            <option value="week">Week</option>
+            <option value="month">Month</option>
+            <option value="year">Year</option>
+          </select>
+          </div>
+
+          <div class="row">
+            <div class="s12 input-field">
+              <input id="test" type="date" class="datepicker" value="05/03/2019">
+              <label for="test">Start Date</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="s12 input-field">
+              <input id="test" type="date" class="datepicker" value="05/03/2019">
+              <label for="test">End Date</label>
+            </div>
+            <a class="waves-effect waves-light btn">Apply</a>
+          </div>
+        </div>
       </div>
     </div>
+
+
     <!-- cards -->
     <div class="col s10 l10">
+
       <!-- main content -->
       <div class="mainContent center-align">
+
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Today's Sales</span>
@@ -82,163 +118,178 @@
           </div>
         </div>
       </div>
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
-      <script>
-        // Today's Sales
-        let salesToday = document.getElementById("todaySales");
-        let todaySales = new Chart(salesToday, {
-          type: 'line',
-          data: {
-            labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
-            datasets: [{
-              label: 'Sales by hour',
-              data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
-              fill: false,
-              borderColor: 'rgb(161, 187, 208)',
-              lineTension: 0.1
-            }]
+    </div>
+
+
+
+    <!-- Compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script>
+      $(document).ready(function () {
+        $(".datepicker").pickadate({
+          onSet: function () {
+            $('.picker__close').click();
           },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
-          }
+          format: "mm/dd/yyyy"
         });
+      });
 
-        // Top 5 Items
-        let topFive = document.getElementById("topFive");
-        let topFiveItems = new Chart(topFive, {
-          type: 'bar',
-          data: {
-            labels: ["Beer 1", "Beer 2", "Beer 3", "Beer 4", "Beer 5"],
-            datasets: [{
-              label: 'Top 5 Items Sold',
-              data: [985, 728, 507, 467, 456],
-              backgroundColor: [
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-              ]
+
+      // Today's Sales
+      let salesToday = document.getElementById("todaySales");
+      let todaySales = new Chart(salesToday, {
+        type: 'line',
+        data: {
+          labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
+          datasets: [{
+            label: 'Sales by hour',
+            data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
+            fill: false,
+            borderColor: 'rgb(161, 187, 208)',
+            lineTension: 0.1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
             }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
           }
-        });
-        // Sales Summary
-        let salesSummary = document.getElementById("salesSumm");
-        let salesSumm = new Chart(salesSummary, {
-          type: 'bar',
-          data: {
-            labels: ["Summary 1", "Summary 2", "Summary 3", "Summary 4", "Summary 5"],
-            datasets: [{
-              label: 'Sales Summary',
-              data: [985, 728, 507, 467, 456],
-              backgroundColor: [
-                'rgb(244, 231, 215)',
-                'rgb(244, 231, 215)',
-                'rgb(244, 231, 215)',
-                'rgb(244, 231, 215)',
-                'rgb(244, 231, 215)',
-              ]
+        }
+      });
+
+      // Top 5 Items
+      let topFive = document.getElementById("topFive");
+      let topFiveItems = new Chart(topFive, {
+        type: 'bar',
+        data: {
+          labels: ["Beer 1", "Beer 2", "Beer 3", "Beer 4", "Beer 5"],
+          datasets: [{
+            label: 'Top 5 Items Sold',
+            data: [985, 728, 507, 467, 456],
+            backgroundColor: [
+              'rgb(209, 168, 39)',
+              'rgb(209, 168, 39)',
+              'rgb(209, 168, 39)',
+              'rgb(209, 168, 39)',
+              'rgb(209, 168, 39)',
+            ]
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
             }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
           }
-        });
-        // Sales Goals
-        let sGoals = document.getElementById("salesGoals");
-        let salesGoals = new Chart(sGoals, {
-          type: 'bar',
-          data: {
-            labels: ["Achievement 1", "Achievement 2", "Achievement 3", "Achievement 4", "Achievement 5"],
-            datasets: [{
-              label: 'Sales Goals',
-              data: [985, 728, 507, 467, 456],
-              backgroundColor: [
-                'rgb(63, 66, 52)',
-                'rgb(63, 66, 52)',
-                'rgb(63, 66, 52)',
-                'rgb(63, 66, 52)',
-                'rgb(63, 66, 52)',
-              ]
+        }
+      });
+      // Sales Summary
+      let salesSummary = document.getElementById("salesSumm");
+      let salesSumm = new Chart(salesSummary, {
+        type: 'bar',
+        data: {
+          labels: ["Summary 1", "Summary 2", "Summary 3", "Summary 4", "Summary 5"],
+          datasets: [{
+            label: 'Sales Summary',
+            data: [985, 728, 507, 467, 456],
+            backgroundColor: [
+              'rgb(244, 231, 215)',
+              'rgb(244, 231, 215)',
+              'rgb(244, 231, 215)',
+              'rgb(244, 231, 215)',
+              'rgb(244, 231, 215)',
+            ]
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
             }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
           }
-        });
+        }
+      });
+      // Sales Goals
+      let sGoals = document.getElementById("salesGoals");
+      let salesGoals = new Chart(sGoals, {
+        type: 'bar',
+        data: {
+          labels: ["Achievement 1", "Achievement 2", "Achievement 3", "Achievement 4", "Achievement 5"],
+          datasets: [{
+            label: 'Sales Goals',
+            data: [985, 728, 507, 467, 456],
+            backgroundColor: [
+              'rgb(63, 66, 52)',
+              'rgb(63, 66, 52)',
+              'rgb(63, 66, 52)',
+              'rgb(63, 66, 52)',
+              'rgb(63, 66, 52)',
+            ]
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
 
-        // 
+      // 
 
-        // Fetch all of the sales data
+      // Fetch all of the sales data
 
-        fetch('/sales/month')
-          .then(r => r.json())
-          .then(r => {
-            console.log(r)
-          })
-          .catch(e => console.log(e))
+      fetch('/sales/month')
+        .then(r => r.json())
+        .then(r => {
+          console.log(r)
+        })
+        .catch(e => console.log(e))
 
-        fetch('/sales/week')
-          .then(r => r.json())
-          .then(r => {
-            console.log(r)
-          })
-          .catch(e => console.log(e))
-
-
-        fetch('/sales/yesterday')
-          .then(r => r.json())
-          .then(r => {
-            console.log(r)
-          })
-          .catch(e => console.log(e))
-
-        fetch('/sales/today')
-          .then(r => r.json())
-          .then(r => {
-            console.log(r)
-          })
-          .catch(e => console.log(e))
+      fetch('/sales/week')
+        .then(r => r.json())
+        .then(r => {
+          console.log(r)
+        })
+        .catch(e => console.log(e))
 
 
+      fetch('/sales/yesterday')
+        .then(r => r.json())
+        .then(r => {
+          console.log(r)
+        })
+        .catch(e => console.log(e))
+
+      fetch('/sales/today')
+        .then(r => r.json())
+        .then(r => {
+          console.log(r)
+        })
+        .catch(e => console.log(e))
 
 
-        fetch('/sales/today')
-            .then(r => r.json())
-            .then(r => {
-              console.log(r)
-            })
-            .catch(e => console.log(e))
-      </script>
+
+
+      fetch('/sales/today')
+        .then(r => r.json())
+        .then(r => {
+          console.log(r)
+        })
+        .catch(e => console.log(e))
+    </script>
 
 </body>
 
