@@ -54,44 +54,185 @@
       <!-- main content -->
       <div class="mainContent center-align">
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">This Month's Goal</span>
+            <span class="card-title activator grey-text text-darken-4">Sales Goals</span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="salesGoals" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Quarterly Goals</span> 
+            <span class="card-title activator grey-text text-darken-4">Quarterly Goals</span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="quarterlyGoals" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Yearly Goals</span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="yearlyGoals" width="400" height="400"></canvas>
+
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Sales YTD</span>
+            <span class="card-title activator grey-text text-darken-4">Employee Sales YTD</span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="employeeSalesYTD" width="400" height="400"></canvas>
+
           </div>
         </div>
       </div>
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </div>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+
+    <script>
+
+      // doughnut tooltip plugin
+      Chart.pluginService.register({
+        beforeRender: function (chart) {
+          if (chart.config.options.showAllTooltips) {
+            // create an array of tooltips
+            // we can't use the chart tooltip because there is only one tooltip per chart
+            chart.pluginTooltips = [];
+            chart.config.data.datasets.forEach(function (dataset, i) {
+              chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                chart.pluginTooltips.push(new Chart.Tooltip({
+                  _chart: chart.chart,
+                  _chartInstance: chart,
+                  _data: chart.data,
+                  _options: chart.options.tooltips,
+                  _active: [sector]
+                }, chart));
+              });
+            });
+
+            // turn off normal tooltips
+            chart.options.tooltips.enabled = false;
+          }
+        },
+        afterDraw: function (chart, easing) {
+          if (chart.config.options.showAllTooltips) {
+            // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+            if (!chart.allTooltipsOnce) {
+              if (easing !== 1)
+                return;
+              chart.allTooltipsOnce = true;
+            }
+
+            // turn on tooltips
+            chart.options.tooltips.enabled = true;
+            Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+              tooltip.initialize();
+              tooltip.update();
+              // we don't actually need this since we are not animating tooltips
+              tooltip.pivot();
+              tooltip.transition(easing).draw();
+            });
+            chart.options.tooltips.enabled = false;
+          }
+        }
+      });
+      // Sales Goals
+      let targetSales = document.getElementById("salesGoals");
+      let salesGoals = new Chart(targetSales, {
+        type: 'doughnut',
+        data: {
+          labels: ["Current Sales", "Monthly Goal"],
+          datasets: [{
+            label: 'Sales by Employee',
+            data: [15000, 40000],
+            backgroundColor: [
+              'rgb(209, 168, 39)',
+              'rgb(161, 187, 208)'
+            ]
+          }]
+        },
+        options: {
+          showAllTooltips: true
+        }
+      });
+      // Quarterly Goals
+      let quarterlySales = document.getElementById("quarterlyGoals")
+      let quarterlyGoals = new Chart(quarterlySales, {
+        type: 'bar',
+        data: {
+          labels: ['Q1 ', 'Q2', 'Q3', 'Q4'],
+          datasets: [{
+            label: 'Sales by Quarter',
+            data: [14500, 29000, 56000, 42000],
+            backgroundColor: [
+              '#f4e7d7',
+              '#f4e7d7',
+              '#f4e7d7',
+              '#f4e7d7'           ]
+          }],
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              stacked: true
+            }],
+            yAxes: [{
+              stacked: true
+            }]
+          }
+        }
+      });
+      // Yearly Goals
+      let yearlySales = document.getElementById("yearlyGoals")
+      let yearlyGoals = new Chart(yearlySales, {
+        type: 'bar',
+        data: {
+          labels: ['2014', '2015', '2016', '2017', '2018'],
+          datasets: [{
+            label: 'Sales by Year (in millions)',
+            data: [1, 2.5, 2.9, 4.3, 6.1],
+            backgroundColor: [
+              '#d1a827',
+              '#d1a827',
+              '#d1a827',
+              '#d1a827',
+              '#d1a827'
+            ]
+          }],
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              stacked: true
+            }],
+            yAxes: [{
+              stacked: true
+            }]
+          }
+        }
+      });
+      // Employee Sales YTD
+      let employeeSales = document.getElementById("employeeSalesYTD")
+      let employeeSalesYTD = new Chart(employeeSales, {
+        type: 'polarArea',
+        data: {
+          labels: ['Employee 1 ', 'Employee 2', 'Employee 3', 'Employee 4', 'Employee 5'],
+          datasets: [{
+            data: [250, 800, 430, 550, 700],
+            backgroundColor: [
+              '#f4e7d7',
+              '#a1bbd0',
+              '#d1a827',
+              '#687672',
+              '#3f4234'
+            ]
+          }],
+        },
+        options: {
+          showAllTooltips: false
+        }
+      });
+    </script>
 </body>
 
 </html>
