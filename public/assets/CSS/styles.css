@@ -6,7 +6,7 @@
   margin-right: 10px;
 }
 .indexBtn:hover {
-  background-color: #a1bbd0;
+  background-color: #43c77a;
   border-radius: 10px;
   color: white;
 }
@@ -57,4 +57,23 @@ a:visited {
 .card{
 margin-left: 10px;
 margin-right: 10px;
+}
+/* employee */
+.employeePic {
+  height: 20px;
+  width: auto;
+}
+.scheduleHeader {
+  background-color: #a1bbd0;
+  opacity: .6;
+}
+.employeeSchedule {
+  width: auto;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+}
+td {
+  margin-left: 4px;
+  margin-right: 4px;
 }
