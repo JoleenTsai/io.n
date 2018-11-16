@@ -70,8 +70,8 @@
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Top Five Items Sold <i class="material-icons right">more_vert</i></span>
-            <p><a href="inventory.html">Detailed Report</a></p>
-            <table>
+            <p><a href="#">Detailed Report</a></p>
+            <table width="400" height="400">
               <thead>
                 <tr>
                   <th>Name</th>
@@ -83,18 +83,28 @@
               <tbody>
                 <tr>
                   <td>Git Lager</td>
-                  <td>20 kegs</td>
-                  <td>$12,600</td>
+                  <td>500 pints</td>
+                  <td>$2,540.32</td>
                 </tr>
                 <tr>
-                  <td>Alan</td>
-                  <td>Jellybean</td>
-                  <td>$3.76</td>
+                  <td>API IPA</td>
+                  <td>325 pints</td>
+                  <td>$1441.53</td>
                 </tr>
                 <tr>
-                  <td>Jonathan</td>
-                  <td>Lollipop</td>
-                  <td>$7.00</td>
+                  <td>Fruit Loop</td>
+                  <td>400 pints</td>
+                  <td>$1935.48</td>
+                </tr>
+                <tr>
+                  <td>Nodemon</td>
+                  <td>425 pints</td>
+                  <td>$1885.08</td>
+                </tr>
+                <tr>
+                  <td>Express</td>
+                  <td>470 pints</td>
+                  <td>$1895.16</td>
                 </tr>
               </tbody>
             </table>
@@ -103,7 +113,8 @@
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Goals<i class="material-icons right">more_vert</i></span>
-            <p><a href="goals.html">Detailed Report</a></p>
+            <p><a href="#">Detailed Report</a></p>
+            <canvas id="salesGoals" width="400" height="400"></canvas>
           </div>
         </div>
       </div>
@@ -111,30 +122,65 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
       <script>
+
+        // doughnut tooltip plugin
+        Chart.pluginService.register({
+          beforeRender: function (chart) {
+            if (chart.config.options.showAllTooltips) {
+              // create an array of tooltips
+              // we can't use the chart tooltip because there is only one tooltip per chart
+              chart.pluginTooltips = [];
+              chart.config.data.datasets.forEach(function (dataset, i) {
+                chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                  chart.pluginTooltips.push(new Chart.Tooltip({
+                    _chart: chart.chart,
+                    _chartInstance: chart,
+                    _data: chart.data,
+                    _options: chart.options.tooltips,
+                    _active: [sector]
+                  }, chart));
+                });
+              });
+
+              // turn off normal tooltips
+              chart.options.tooltips.enabled = false;
+            }
+          },
+          afterDraw: function (chart, easing) {
+            if (chart.config.options.showAllTooltips) {
+              // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+              if (!chart.allTooltipsOnce) {
+                if (easing !== 1)
+                  return;
+                chart.allTooltipsOnce = true;
+              }
+
+              // turn on tooltips
+              chart.options.tooltips.enabled = true;
+              Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+                tooltip.initialize();
+                tooltip.update();
+                // we don't actually need this since we are not animating tooltips
+                tooltip.pivot();
+                tooltip.transition(easing).draw();
+              });
+              chart.options.tooltips.enabled = false;
+            }
+          }
+        });
+
         // Today's Sales
         let salesToday = document.getElementById("todaySales");
         let todaySales = new Chart(salesToday, {
-          type: 'bar',
+          type: 'line',
           data: {
-            labels: ["12pm", '', "2pm", '', "4pm", '', "6pm", '', "8pm", '', "10pm", '', "12am"],
+            labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
             datasets: [{
               label: 'Sales by hour',
               data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
-              backgroundColor: [
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)'
-              ]
+              fill: false,
+              borderColor: 'rgb(209, 168, 39)',
+              lineTension: 0.1
             }]
           },
           options: {
@@ -158,11 +204,11 @@
               label: 'Sales by Employee',
               data: [985, 728, 507, 467, 456],
               backgroundColor: [
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
               ]
             }]
           },
@@ -177,7 +223,25 @@
           }
         });
 
-        // 
+        // Sales Goals
+        let targetSales = document.getElementById("salesGoals");
+        let salesGoals = new Chart(targetSales, {
+          type: 'doughnut',
+          data: {
+            labels: ["Current Sales", "Monthly Goal"],
+            datasets: [{
+              label: 'Sales by Employee',
+              data: [15000, 40000],
+              backgroundColor: [
+                'rgb(209, 168, 39)',
+                'rgb(161, 187, 208)'
+              ]
+            }]
+          },
+          options: {
+            showAllTooltips: true
+          }
+        });
       </script>
 </body>
 
