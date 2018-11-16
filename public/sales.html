@@ -228,6 +228,16 @@
             console.log(r)
           })
           .catch(e => console.log(e))
+
+
+
+
+        fetch('/sales/today')
+            .then(r => r.json())
+            .then(r => {
+              console.log(r)
+            })
+            .catch(e => console.log(e))
       </script>
 
 </body>
