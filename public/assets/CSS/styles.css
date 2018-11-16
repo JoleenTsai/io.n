@@ -63,17 +63,21 @@ margin-right: 10px;
   height: 20px;
   width: auto;
 }
+.collection {
+  height: 420px;
+}
+.addEmployee {
+  background-color: #a1bbd0;
+}
 .scheduleHeader {
   background-color: #a1bbd0;
   opacity: .6;
+  font-size: 13px;
 }
 .employeeSchedule {
-  width: auto;
+  width: 800px;
   margin-right: auto;
   margin-left: auto;
   margin-top: 10px;
-}
-td {
-  margin-left: 4px;
-  margin-right: 4px;
+  font-size: 85%;
 }
