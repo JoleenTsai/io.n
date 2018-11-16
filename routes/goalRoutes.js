@@ -1,4 +1,5 @@
 const db = require('../models')
+const Op = db.Sequelize.Op
 
 module.exports = app => {
     // All Goals
@@ -11,10 +12,10 @@ module.exports = app => {
     })
 
     // One goal
-    app.get('goals/:date', (req, res) => {
+    app.get('goals/:YYYY-:MM-:DD', (req, res) => {
         db.Goals.findOne({
             where: {
-                Date: req.params.date
+                date: `${req.params.YYYY}-${req.params.MM}-01` 
             },
             include: [db.Sales]
         })
@@ -30,12 +31,12 @@ module.exports = app => {
     })
 
     // Update goal
-    app.put('goals/:date', (req, res) => {
+    app.put('goals/:YYYY-:MM-:DD', (req, res) => {
         db.Goals.update(
             req.body,
             {
                 where: {
-                    Date: req.params.date
+                    date: `${req.params.YYYY}-${req.params.MM}-01`
                 }
             }
         )
