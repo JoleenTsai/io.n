@@ -17,8 +17,7 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a"
-            width="235px" height="65px"></i></a>
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a" width="235px" height="65px"></i></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
           <li><a href="#" class="nav-links">Username</a></li>
@@ -45,6 +44,9 @@
           </li>
           <li>
             <a href="#" class="">Goals</a>
+          </li>
+          <li>
+            <a class="grey-text darken-4" onclick="logout()">Logout</a>
           </li>
         </ul>
       </div>
@@ -121,6 +123,9 @@
       <!-- Compiled and minified JavaScript -->
       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+      <!-- Check for user session -->
+      <script src="./assets/Js/session.js"></script>
+      <!-- Charts -->
       <script>
 
         // doughnut tooltip plugin
