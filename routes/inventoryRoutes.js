@@ -1,6 +1,5 @@
 const db = require('../models')
 const Op = db.Sequelize.Op
-const moment = require()
 
 module.exports = app => {
     module.exports = app => {
