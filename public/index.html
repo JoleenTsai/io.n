@@ -28,42 +28,38 @@
 
         <img src="./assets/Images/ion-alt.png" style="height:200px; margin-top: 30px;" alt="io.n">
 
-          <p>Welcome! Please log into your account.</p>
+          <p id='loginMessage'>Welcome! Please log into your account.</p>
 
           <form>
             <div class="row">
-              <div class="input-field col offset-l2 s10 m7 l8 center-align">
-                <input id="first_name" type="text" class="validate">
-                <label for="first_name">Username</label>
+              <div class="input-field col offset-s1 offset-m2 s10 m8 center-align">
+                <input id="username" type="text" class="validate" autocomplete="username">
+                <label for="username">Username</label>
               </div>
             </div>
               <div class="row">
-                <div class="input-field col offset-l2 s10 m7 l8 center-align">
-                  <input id="password" type="password" class="validate">
+                <div class="row input-field col offset-s1 offset-m2 s10 m8 center-align">
+                  <input id="password" type="password" class="validate" autocomplete="current-password">
                   <label for="password">Password</label>
                 </div>
               </div>
-          </form>
-
-              <form action="#">
-                <p>
+                <div class="row">
                   <label>
-                    <input type="checkbox" />
+                    <input type="checkbox">
                     <span class="rememberMe flex-item">Remember Me</span>
                   </label>
-                  <a href="#">Forgot Password</a>
-                </p>
+                  <a onclick='admin()'>Forgot Password</a>
+                </div>
               </form>
 
-
-
-              <a class="waves-effect waves-light btn indexBtn">Log In</a>
-              <a class="waves-effect waves-light btn indexBtn">Sign Up</a>
+              <a class="waves-effect waves-light btn indexBtn" onclick='login()'>Log In</a>
+              <a class="waves-effect waves-light btn indexBtn" onclick='admin()'>Sign Up</a>
 
         </div>
       </div>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="./assets/Js/index.js"></script>
 </body>
 
 </html>
