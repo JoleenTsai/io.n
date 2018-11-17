@@ -1,5 +1,6 @@
 const db = require('../models')
 const Op = db.Sequelize.Op
+const moment = require()
 
 module.exports = app => {
     module.exports = app => {
@@ -13,29 +14,9 @@ module.exports = app => {
         })
 
         // inventory by period
-        app.get('/inventory/:period', (req, res) => {
-            let now = new Date
-            let startDate
-            let endDate
-            // >>TODO CALCULATE EACH PERIOD'S START AND END
-            switch (req.params.period) {
-                case 'month':
-                    startDate = '2017-10-01'
-                    endDate = '2017-10-31'
-                    break
-                case 'week':
-                    startDate = '2017-11-04'
-                    endDate = '2017-11-10'
-                    break
-                case 'yesterday':
-                    startDate = '2017-11-12'
-                    endDate = '2017-11-12'
-                    break
-                case 'today':
-                    startDate = '2017-11-13'
-                    endDate = '2017-11-13'
-                    break
-            }
+        app.get('/inventory/:period-:custom1-:custom2', (req, res) => {
+            let startDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).start
+            let endDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).end
 
             db.Inventory.findAll({
                 where: {
