@@ -16,7 +16,7 @@ function login(){
                 localStorage.setItem('lot17a-session', response.user_name)
                 localStorage.setItem('lot17a-firstname', response.first_name)
                 localStorage.setItem('lot17a-lastname', response.last_name)
-                localStorage.setItem('lot17a-imageURL', `${response.user_name}.jpeg`)
+                localStorage.setItem('lot17a-imageURL', `./assets/Images/user.employee.images/user/${response.user_name}.jpeg`)
                 sessionCheck()
             } else {
                 // Warn user, login info was incorrect
