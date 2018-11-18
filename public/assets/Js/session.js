@@ -4,8 +4,10 @@ function sessionCheck() {
         window.location = './'
     }
     else {
-        // >> TODO <<
         // dispay user in navbar
+        document.getElementById('userFirst').innerText = localStorage.getItem('lot17a-firstname')
+        document.getElementById('userLast').innerText = localStorage.getItem('lot17a-lastname')
+        document.getElementById('userPhoto').setAttribute('src', localStorage.getItem('lot17a-imageURL'))
     }
 }
 //Button Logout
