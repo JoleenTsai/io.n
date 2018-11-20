@@ -53,31 +53,31 @@
         <div class="date-filter" style="margin-top: 10px;">
 
           <div class="row">
-          <label style="margin-top: 4px;">Date Filter</label>
-          <select style="margin-top: 4px" class="browser-default">
-            <option value="" disabled selected>select</option>
-            <option value="today">Today</option>
-            <option value="yesterday">Yesterday</option>
-            <option value="week">Week</option>
-            <option value="month">Month</option>
-            <option value="year">Year</option>
-          </select>
+            <label style="margin-top: 4px;">Date Filter</label>
+            <select onchange="dateAutoFill()" id="period" style="margin-top: 4px" class="browser-default">
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="lastWeek">Last Week</option>
+              <option value="lastMonth">Last Month</option>
+              <option value="lastYear">Last Year</option>
+            </select>
           </div>
 
           <div class="row">
+            <p>Choose Date:</p>
             <div class="s12 input-field">
-              <input id="test" type="date" class="datepicker" value="05/03/2019">
-              <label for="test">Start Date</label>
+              <input onchange="customDate()" id="startDate" type="date" class="datepicker" placeholder="">
+              <label for="startDate">Start Date</label>
             </div>
           </div>
 
           <div class="row">
             <div class="s12 input-field">
-              <input id="test" type="date" class="datepicker" value="05/03/2019">
-              <label for="test">End Date</label>
+              <input onchange="customDate()" id="endDate" type="date" class="datepicker" placeholder="">
+              <label for="endDate">End Date</label>
             </div>
-            <a class="waves-effect waves-light btn">Apply</a>
           </div>
+          <div class="row" id="invalidDate" style="color:red"></div>
         </div>
       </div>
     </div>
@@ -126,15 +126,97 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+
     <script>
+      
+      // Materialize Date Pickup
       $(document).ready(function () {
         $(".datepicker").pickadate({
           onSet: function () {
             $('.picker__close').click();
           },
-          format: "mm/dd/yyyy"
+          format: "yyyy-mm-dd"
         });
       });
+
+      // Variables
+      let startDate = moment().format("YYYY-MM-DD")
+      let endDate = moment().format("YYYY-MM-DD")
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+      let period
+
+      // Period Filter Function
+      function dateAutoFill() {
+        event.preventDefault()
+
+        period = document.querySelector('#period').value
+
+        switch (period) {
+
+          case "today":
+            startDate = moment().format("YYYY-MM-DD")
+            endDate = moment().format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            break;
+
+          case "yesterday":
+            startDate = moment().subtract(1, 'day').format("YYYY-MM-DD")
+            endDate = startDate
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            break;
+
+          case "lastWeek":
+            startDate = moment().day(-7).format("YYYY-MM-DD")
+            endDate = moment().day(-1).format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            break;
+
+          case "lastMonth":
+            startDate = moment().subtract(1, 'month').startOf('month').format("YYYY-MM-DD")
+            endDate = moment().subtract(1, 'month').endOf('month').format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            break;
+
+          case "lastYear":
+            startDate = moment().subtract(1, 'year').startOf('month').format("YYYY-MM-DD")
+            endDate = moment().subtract(1, 'month').endOf('month').format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            break;
+
+          default:
+        }
+      }
+
+      //Custom Date Filter Function
+      function customDate() {
+        period = 'custom'
+        document.querySelector('#period').value = ""
+        startDate = document.getElementById("startDate").value
+        endDate = document.getElementById("endDate").value
+
+        if (startDate > endDate || startDate === "" || endDate === "") {
+          document.querySelector('#invalidDate').innerHTML = `
+          <p>Invalid Date!</p>
+          `
+        } else {
+          document.querySelector('#invalidDate').innerHTML = ``
+          console.log("Good")
+        }
+      }
+
+
 
 
       // Today's Sales
@@ -249,46 +331,46 @@
 
       // 
 
-      // Fetch all of the sales data
+      // // Fetch all of the sales data
 
-      fetch('/sales/month')
-        .then(r => r.json())
-        .then(r => {
-          console.log(r)
-        })
-        .catch(e => console.log(e))
+      // fetch('/sales/month')
+      //   .then(r => r.json())
+      //   .then(r => {
+      //     console.log(r)
+      //   })
+      //   .catch(e => console.log(e))
 
-      fetch('/sales/week')
-        .then(r => r.json())
-        .then(r => {
-          console.log(r)
-        })
-        .catch(e => console.log(e))
-
-
-      fetch('/sales/yesterday')
-        .then(r => r.json())
-        .then(r => {
-          console.log(r)
-        })
-        .catch(e => console.log(e))
-
-      fetch('/sales/today')
-        .then(r => r.json())
-        .then(r => {
-          console.log(r)
-        })
-        .catch(e => console.log(e))
+      // fetch('/sales/week')
+      //   .then(r => r.json())
+      //   .then(r => {
+      //     console.log(r)
+      //   })
+      //   .catch(e => console.log(e))
 
 
+      // fetch('/sales/yesterday')
+      //   .then(r => r.json())
+      //   .then(r => {
+      //     console.log(r)
+      //   })
+      //   .catch(e => console.log(e))
+
+      // fetch('/sales/today')
+      //   .then(r => r.json())
+      //   .then(r => {
+      //     console.log(r)
+      //   })
+      //   .catch(e => console.log(e))
 
 
-      fetch('/sales/today')
-        .then(r => r.json())
-        .then(r => {
-          console.log(r)
-        })
-        .catch(e => console.log(e))
+
+
+      // fetch('/sales/today')
+      //   .then(r => r.json())
+      //   .then(r => {
+      //     console.log(r)
+      //   })
+      //   .catch(e => console.log(e))
     </script>
 
 </body>
