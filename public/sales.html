@@ -50,7 +50,7 @@
         </ul>
 
 
-        <div class="date-filter" style="margin-top: 10px;">
+        <div class="date-filter" style="margin: 10px;">
 
           <div class="row">
             <label style="margin-top: 4px;">Date Filter</label>
@@ -129,7 +129,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
 
     <script>
-      
       // Materialize Date Pickup
       $(document).ready(function () {
         $(".datepicker").pickadate({
@@ -145,7 +144,9 @@
       let endDate = moment().format("YYYY-MM-DD")
       document.getElementById("startDate").value = startDate
       document.getElementById("endDate").value = endDate
-      let period
+      let period = 'today'
+
+      breweryData()
 
       // Period Filter Function
       function dateAutoFill() {
@@ -161,6 +162,7 @@
             document.getElementById("startDate").value = startDate
             document.getElementById("endDate").value = endDate
             document.querySelector('#invalidDate').innerHTML = ``
+            breweryData()
             break;
 
           case "yesterday":
@@ -169,6 +171,7 @@
             document.getElementById("startDate").value = startDate
             document.getElementById("endDate").value = endDate
             document.querySelector('#invalidDate').innerHTML = ``
+            breweryData()
             break;
 
           case "lastWeek":
@@ -177,6 +180,7 @@
             document.getElementById("startDate").value = startDate
             document.getElementById("endDate").value = endDate
             document.querySelector('#invalidDate').innerHTML = ``
+            breweryData()
             break;
 
           case "lastMonth":
@@ -185,6 +189,7 @@
             document.getElementById("startDate").value = startDate
             document.getElementById("endDate").value = endDate
             document.querySelector('#invalidDate').innerHTML = ``
+            breweryData()
             break;
 
           case "lastYear":
@@ -193,6 +198,7 @@
             document.getElementById("startDate").value = startDate
             document.getElementById("endDate").value = endDate
             document.querySelector('#invalidDate').innerHTML = ``
+            breweryData()
             break;
 
           default:
@@ -213,13 +219,13 @@
         } else {
           document.querySelector('#invalidDate').innerHTML = ``
           console.log("Good")
+          breweryData()
         }
       }
 
 
 
-
-      // Today's Sales
+      // Main's Sales Graph
       let salesToday = document.getElementById("todaySales");
       let todaySales = new Chart(salesToday, {
         type: 'line',
@@ -242,9 +248,9 @@
             }]
           }
         }
-      });
+      })
 
-      // Top 5 Items
+      // Top 5 Items Graph
       let topFive = document.getElementById("topFive");
       let topFiveItems = new Chart(topFive, {
         type: 'bar',
@@ -271,8 +277,10 @@
             }]
           }
         }
-      });
-      // Sales Summary
+      })
+
+
+      // Sales Summary Graph
       let salesSummary = document.getElementById("salesSumm");
       let salesSumm = new Chart(salesSummary, {
         type: 'bar',
@@ -299,8 +307,9 @@
             }]
           }
         }
-      });
-      // Sales Goals
+      })
+
+      // Sales Goals Graph
       let sGoals = document.getElementById("salesGoals");
       let salesGoals = new Chart(sGoals, {
         type: 'bar',
@@ -327,18 +336,18 @@
             }]
           }
         }
-      });
+      })
 
-      // 
 
       // // Fetch all of the sales data
-
-      // fetch('/sales/month')
-      //   .then(r => r.json())
-      //   .then(r => {
-      //     console.log(r)
-      //   })
-      //   .catch(e => console.log(e))
+      function breweryData() {
+        fetch(`/sales/${period}-${startDate}-${endDate}`)
+          .then(r => r.json())
+          .then(r => {
+            console.log(r)
+          })
+          .catch(e => console.log(e))
+      }
 
       // fetch('/sales/week')
       //   .then(r => r.json())
