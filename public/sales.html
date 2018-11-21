@@ -50,11 +50,9 @@
           </li>
         </ul>
 
-
-        <div class="date-filter" style="margin: 10px;">
-
+        <div class="date-filter">
           <div class="row">
-            <label style="margin-top: 4px;">Date Filter</label>
+            <label style="margin-top: 4px; color: #d1a827;">Date Filter</label>
             <select onchange="dateAutoFill()" id="period" style="margin-top: 4px" class="browser-default">
               <option value="today">Today</option>
               <option value="yesterday">Yesterday</option>
@@ -65,17 +63,17 @@
           </div>
 
           <div class="row">
-            <p>Choose Date:</p>
+            <p style="color: #d1a827;">Choose Date:</p>
             <div class="s12 input-field">
               <input onchange="customDate()" id="startDate" type="date" class="datepicker" placeholder="">
-              <label for="startDate">Start Date</label>
+              <label for="startDate" style="color: #d1a827;">Start Date</label>
             </div>
           </div>
 
           <div class="row">
             <div class="s12 input-field">
               <input onchange="customDate()" id="endDate" type="date" class="datepicker" placeholder="">
-              <label for="endDate">End Date</label>
+              <label for="endDate" style="color: #d1a827;">End Date</label>
             </div>
           </div>
           <div class="row" id="invalidDate" style="color:red"></div>
@@ -209,18 +207,18 @@
         })
 
         timeTotalArray = [Math.round(time12Total * 100) / 100,
-          Math.round(time13Total * 100) / 100,
-          Math.round(time14Total * 100) / 100,
-          Math.round(time15Total * 100) / 100,
-          Math.round(time16Total * 100) / 100,
-          Math.round(time17Total * 100) / 100,
-          Math.round(time18Total * 100) / 100,
-          Math.round(time19Total * 100) / 100,
-          Math.round(time20Total * 100) / 100,
-          Math.round(time21Total * 100) / 100,
-          Math.round(time22Total * 100) / 100,
-          Math.round(time23Total * 100) / 100,
-          Math.round(time24Total * 100) / 100
+        Math.round(time13Total * 100) / 100,
+        Math.round(time14Total * 100) / 100,
+        Math.round(time15Total * 100) / 100,
+        Math.round(time16Total * 100) / 100,
+        Math.round(time17Total * 100) / 100,
+        Math.round(time18Total * 100) / 100,
+        Math.round(time19Total * 100) / 100,
+        Math.round(time20Total * 100) / 100,
+        Math.round(time21Total * 100) / 100,
+        Math.round(time22Total * 100) / 100,
+        Math.round(time23Total * 100) / 100,
+        Math.round(time24Total * 100) / 100
         ]
       }
 

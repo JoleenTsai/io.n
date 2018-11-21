@@ -1,4 +1,4 @@
-/* index page */
+/* INDEX */
 .indexBtn {
   background-color: #4a8d68;
   border-radius: 10px;
@@ -14,7 +14,7 @@
   justify-content: space-around;
   margin: 0px 10px 15px 10px;
 }
-/* universal */
+/* UNIVERSAL */
 body {
   background-color: rgb(241, 239, 239);
 }
@@ -69,7 +69,7 @@ margin-right: 10px;
   height: 50px;
   border-radius: 100%;
 }
-/* employee */
+/* EMPLOYEE */
 .employeePic {
   height: 20px;
   width: auto;
@@ -91,4 +91,20 @@ margin-right: 10px;
   margin-left: auto;
   margin-top: 10px;
   font-size: 85%;
+}
+/* SALES */
+.date-filter {
+  background-color: white;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.picker__date-display {
+  background-color: #a1bbd0;
+}
+.picker__weekday-display {
+  background-color:#d1a827;
+}
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
+  background-color:#d1a827;
 }
