@@ -1,0 +1,1 @@
+app.get(`sales/${moment().startOf('year').format('YYYYMMDD')}-${moment().format('YYYYMMDD')}`)
