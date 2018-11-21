@@ -1,4 +1,4 @@
-module.exports = (app) => {
+hmodule.exports = (app) => {
     require('./employeeRoutes')(app)
     require('./goalRoutes')(app)
     require('./inventoryRoutes')(app)
