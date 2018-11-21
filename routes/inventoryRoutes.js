@@ -1,5 +1,6 @@
 const db = require('../models')
 const Op = db.Sequelize.Op
+const moment = require('moment')
 
 module.exports = app => {
     module.exports = app => {
@@ -14,14 +15,11 @@ module.exports = app => {
 
         // inventory by period
         app.get('/inventory/:period-:custom1-:custom2', (req, res) => {
-            let startDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).start
-            let endDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).end
-
             db.Inventory.findAll({
                 where: {
                     date: {
-                        [Op.gte]: startDate,
-                        [Op.lte]: endDate
+                        [Op.gte]: moment(req.params.custom1).format('YYYY-MM-DD'),
+                        [Op.lte]: moment(req.params.custom2).format('YYYY-MM-DD')
                     }
                 },
                 include: [db.Products]
@@ -44,7 +42,7 @@ module.exports = app => {
                 {
                     where: {
                         date: req.params.date,
-                        beer_id: req.params.product
+                        beer_id: req.params.beer
                     }
                 }
             )
