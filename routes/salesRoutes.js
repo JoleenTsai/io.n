@@ -13,7 +13,7 @@ module.exports = app => {
     })
 
     // sales by period
-    app.get('/sales/:period-:custom1-:custom2', (req, res) => {
+    app.get('/sales/:custom1-:custom2', (req, res) => {
         db.Sales.findAll({
             where: {
                 transaction_date: {

@@ -227,7 +227,7 @@
 
       // // Fetch all of the sales data
       function breweryData() {
-        fetch(`/sales/${period}-${startDate}-${endDate}`)
+        fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
           .then(r => r.json())
           .then(r => {
             console.log(r)
