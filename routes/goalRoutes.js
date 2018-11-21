@@ -12,10 +12,10 @@ module.exports = app => {
     })
 
     // One goal
-    app.get('goals/:YYYY-:MM-:DD', (req, res) => {
+    app.get('goals/:date', (req, res) => {
         db.Goals.findOne({
             where: {
-                date: `${req.params.YYYY}-${req.params.MM}-01` 
+                date: moment(req.params.date).format('YYYY-MM-DD')
             },
             include: [db.Sales]
         })
@@ -31,12 +31,12 @@ module.exports = app => {
     })
 
     // Update goal
-    app.put('goals/:YYYY-:MM-:DD', (req, res) => {
+    app.put('goals/:date', (req, res) => {
         db.Goals.update(
             req.body,
             {
                 where: {
-                    date: `${req.params.YYYY}-${req.params.MM}-01`
+                    date: moment(req.params.date).format('YYYY-MM-DD')
                 }
             }
         )

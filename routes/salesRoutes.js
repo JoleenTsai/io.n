@@ -1,5 +1,6 @@
 const db = require('../models')
 const Op = db.Sequelize.Op
+const moment = require('moment')
 
 module.exports = app => {
     // All Sales
@@ -13,15 +14,11 @@ module.exports = app => {
 
     // sales by period
     app.get('/sales/:period-:custom1-:custom2', (req, res) => {
-        // Determine period's start and end
-        let startDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).start
-        let endDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).end
-
         db.Sales.findAll({
             where: {
                 transaction_date: {
-                    [Op.gte]: startDate,
-                    [Op.lte]: endDate
+                    [Op.gte]: moment(req.params.custom1).format('YYYY-MM-DD'),
+                    [Op.lte]: moment(req.params.custom2).format('YYYY-MM-DD')
                 }
             },
             include: [db.Products, db.Employees]
