@@ -2,7 +2,7 @@
 let startDate = moment().format("YYYY-MM-DD")
 let endDate = moment().format("YYYY-MM-DD")
 let period = 'today'
-let timeTotalArray = []
+
 document.getElementById("startDate").value = startDate
 document.getElementById("endDate").value = endDate
 
@@ -13,7 +13,7 @@ function breweryData() {
     .then(r => {
       console.log(r)
       hourSalesGraph(r)
-      topItemsGraph()
+      topItemsGraph(r)
       salesSumGraph()
       salesGoalGraph()
     })
@@ -95,9 +95,10 @@ function customDate() {
   }
 }
 
-
 // Main's Sales Graph
 function hourSalesGraph(r) {
+
+  let timeTotalArray = []
 
   // time Intveral Looper
   let time12Total = 0
@@ -200,7 +201,19 @@ function hourSalesGraph(r) {
 
 // Top 5 Items Graph
 
-function topItemsGraph() {
+function topItemsGraph(r) {
+
+  let beerItemArray = []
+  let beerItemSalesArray=[]
+
+  r.forEach(item =>{ 
+    if(beerItemArray.includes(item.Product.name)===false){
+      beerItemArray.push(item.Product.name)
+    }
+  })
+
+  console.log(beerItemArray)
+
   let topFive = document.getElementById("topFive");
   let topFiveItems = new Chart(topFive, {
     type: 'bar',
