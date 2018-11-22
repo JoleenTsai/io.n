@@ -1,3 +1,96 @@
+let startDate = moment().format("YYYY-MM-DD")
+let endDate = moment().format("YYYY-MM-DD")
+let period = 'today'
+let timeTotalArray = []
+document.getElementById("startDate").value = startDate
+document.getElementById("endDate").value = endDate
+
+// // Fetch all of the sales data
+function breweryData() {
+  fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
+    .then(r => r.json())
+    .then(r => {
+      console.log(r)
+      
+    })
+    .catch(e => console.log(e))
+}
+
+// Period Filter Function
+function dateAutoFill() {
+  event.preventDefault()
+
+  period = document.querySelector('#period').value
+
+  switch (period) {
+
+    case "today":
+      startDate = moment().format("YYYY-MM-DD")
+      endDate = moment().format("YYYY-MM-DD")
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+      document.querySelector('#invalidDate').innerHTML = ``
+      breweryData()
+      break;
+
+    case "yesterday":
+      startDate = moment().subtract(1, 'day').format("YYYY-MM-DD")
+      endDate = startDate
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+      document.querySelector('#invalidDate').innerHTML = ``
+      breweryData()
+      break;
+
+    case "lastWeek":
+      startDate = moment().day(-7).format("YYYY-MM-DD")
+      endDate = moment().day(-1).format("YYYY-MM-DD")
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+      document.querySelector('#invalidDate').innerHTML = ``
+      breweryData()
+      break;
+
+    case "lastMonth":
+      startDate = moment().subtract(1, 'month').startOf('month').format("YYYY-MM-DD")
+      endDate = moment().subtract(1, 'month').endOf('month').format("YYYY-MM-DD")
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+      document.querySelector('#invalidDate').innerHTML = ``
+      breweryData()
+      break;
+
+    case "lastYear":
+      startDate = moment().subtract(1, 'year').startOf('month').format("YYYY-MM-DD")
+      endDate = moment().subtract(1, 'month').endOf('month').format("YYYY-MM-DD")
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+      document.querySelector('#invalidDate').innerHTML = ``
+      breweryData()
+      break;
+
+    default:
+  }
+}
+
+//Custom Date Filter Function
+function customDate() {
+  period = 'custom'
+  document.querySelector('#period').value = ""
+  startDate = document.getElementById("startDate").value
+  endDate = document.getElementById("endDate").value
+
+  if (startDate > endDate || startDate === "" || endDate === "") {
+    document.querySelector('#invalidDate').innerHTML = `
+          <p>Invalid Date!</p>
+          `
+  } else {
+    document.querySelector('#invalidDate').innerHTML = ``
+    console.log("Good")
+    breweryData()
+  }
+}
+
 // doughnut tooltip plugin
 Chart.pluginService.register({
   beforeRender: function (chart) {
