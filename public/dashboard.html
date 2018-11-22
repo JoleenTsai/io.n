@@ -7,8 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="./assets/CSS/reset.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <link rel="stylesheet" href="./assets/CSS/styles.css">
   <title>io.n</title>
 </head>
@@ -17,10 +18,12 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="left brand-logo logo-text"><img src="./assets/images/lot17a-logo-small.png" alt="lot17a" id="brandLogo"></a>
+        <a href="./dashboard.html" class="left brand-logo logo-text"><img src="./assets/images/lot17a-logo-small.png"
+            alt="lot17a" id="brandLogo"></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
-          <li><a href="#" class="nav-links valign-wrapper">&nbsp;<span id="userFirst">user</span>&nbsp; <span id="userLast">name</span>&nbsp; <img src="" alt="user photo" id="userPhoto"></a></li>
+          <li><a href="#" class="nav-links valign-wrapper">&nbsp;<span id="userFirst">user</span>&nbsp; <span id="userLast">name</span>&nbsp;
+              <img src="" alt="user photo" id="userPhoto"></a></li>
         </ul>
       </div>
     </nav>
@@ -49,8 +52,41 @@
             <a class="grey-text darken-4" onclick="logout()">Logout</a>
           </li>
         </ul>
+
+
+        <div class="date-filter">
+          <div class="row">
+            <label style="margin-top: 4px; color: #d1a827;">Date Filter</label>
+            <select onchange="dateAutoFill()" id="period" style="margin-top: 4px" class="browser-default">
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="lastWeek">Last Week</option>
+              <option value="lastMonth">Last Month</option>
+              <option value="lastYear">Last Year</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <p style="color: #d1a827;">Choose Date:</p>
+            <div class="s12 input-field">
+              <input onchange="customDate()" id="startDate" type="date" class="datepicker" placeholder="">
+              <label for="startDate" style="color: #d1a827;">Start Date</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="s12 input-field">
+              <input onchange="customDate()" id="endDate" type="date" class="datepicker" placeholder="">
+              <label for="endDate" style="color: #d1a827;">End Date</label>
+            </div>
+          </div>
+          <div class="row" id="invalidDate" style="color:red"></div>
+        </div>
       </div>
     </div>
+
+
+
     <!-- cards -->
     <div class="col s10 l10">
       <!-- main content -->
@@ -120,133 +156,26 @@
           </div>
         </div>
       </div>
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
-      <!-- Check for user session -->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+      <script src="./assets/Js/dashbord.js"></script>
       <script src="./assets/Js/session.js"></script>
-      <!-- Charts -->
+
       <script>
-
-        // doughnut tooltip plugin
-        Chart.pluginService.register({
-          beforeRender: function (chart) {
-            if (chart.config.options.showAllTooltips) {
-              // create an array of tooltips
-              // we can't use the chart tooltip because there is only one tooltip per chart
-              chart.pluginTooltips = [];
-              chart.config.data.datasets.forEach(function (dataset, i) {
-                chart.getDatasetMeta(i).data.forEach(function (sector, j) {
-                  chart.pluginTooltips.push(new Chart.Tooltip({
-                    _chart: chart.chart,
-                    _chartInstance: chart,
-                    _data: chart.data,
-                    _options: chart.options.tooltips,
-                    _active: [sector]
-                  }, chart));
-                });
-              });
-
-              // turn off normal tooltips
-              chart.options.tooltips.enabled = false;
-            }
-          },
-          afterDraw: function (chart, easing) {
-            if (chart.config.options.showAllTooltips) {
-              // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-              if (!chart.allTooltipsOnce) {
-                if (easing !== 1)
-                  return;
-                chart.allTooltipsOnce = true;
-              }
-
-              // turn on tooltips
-              chart.options.tooltips.enabled = true;
-              Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
-                tooltip.initialize();
-                tooltip.update();
-                // we don't actually need this since we are not animating tooltips
-                tooltip.pivot();
-                tooltip.transition(easing).draw();
-              });
-              chart.options.tooltips.enabled = false;
-            }
-          }
-        });
-
-        // Today's Sales
-        let salesToday = document.getElementById("todaySales");
-        let todaySales = new Chart(salesToday, {
-          type: 'line',
-          data: {
-            labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
-            datasets: [{
-              label: 'Sales by hour',
-              data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
-              fill: false,
-              borderColor: 'rgb(161, 187, 208)',
-              lineTension: 0.1
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
-          }
-        });
-        // Sales by Employee
-        let empSales = document.getElementById("employeeSales");
-        let employeeSales = new Chart(empSales, {
-          type: 'bar',
-          data: {
-            labels: ["Garrett Fermo", "Radley Eakle", "Adam Openbrier", "Joleen Tsai", "Jean Chung"],
-            datasets: [{
-              label: 'Sales by Employee',
-              data: [985, 728, 507, 467, 456],
-              backgroundColor: [
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-              ]
-            }]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                ticks: {
-                  beginAtZero: true
-                }
-              }]
-            }
-          }
-        });
-
-        // Sales Goals
-        let targetSales = document.getElementById("salesGoals");
-        let salesGoals = new Chart(targetSales, {
-          type: 'doughnut',
-          data: {
-            labels: ["Current Sales", "Monthly Goal"],
-            datasets: [{
-              label: 'Sales by Employee',
-              data: [15000, 40000],
-              backgroundColor: [
-                'rgb(209, 168, 39)',
-                'rgb(161, 187, 208)'
-              ]
-            }]
-          },
-          options: {
-            showAllTooltips: true
-          }
+        // Materialize Date Pickup
+        $(document).ready(function () {
+          $(".datepicker").pickadate({
+            onSet: function () {
+              $('.picker__close').click();
+            },
+            format: "yyyy-mm-dd"
+          });
         });
       </script>
+
 </body>
 
 </html>
