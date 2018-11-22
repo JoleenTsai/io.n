@@ -179,6 +179,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+        <script src="./assets/Js/session.js"></script>
+        <script src="./assets/Js/employees.js"></script>
         <script>
 
           // doughnut tooltip plugin
@@ -224,52 +226,7 @@
               }
             }
           });
-
-          // Variables
-          let employeeSalesArray = []
-          // Fetch all of the sales data
-          function breweryData() {
-            fetch(`sales/${moment().startOf('year').format('YYYYMMDD')}-${moment().format('YYYYMMDD')}`)
-              .then(r => r.json())
-              .then(r => {
-                console.log(r)
-                timeInterval(r)
-                employeeSalesGraph(employeeSalesArray)
-              })
-              .catch(e => console.log(e))
-          }
-          // Sales by Employee
-          function employeeSalesGraph(employeeSalesArray) {
-            let empSales = document.getElementById("employeeSales");
-            let employeeSales = new Chart(empSales, {
-              type: 'bar',
-              data: {
-                labels: ["AMaclaine", "QFults", "MArranz", "LSalcido", "ARoush"],
-                datasets: [{
-                  label: 'Sales by Employee',
-                  data: employeeSalesArray,
-                  backgroundColor: [
-                    '#d1a827',
-                    '#d1a827',
-                    '#d1a827',
-                    '#d1a827',
-                    '#d1a827',
-                  ]
-                }]
-              },
-              options: {
-                scales: {
-                  yAxes: [{
-                    ticks: {
-                      beginAtZero: true
-                    }
-                  }]
-                }
-              }
-            });
-          }
         </script>
-        <script src="./assets/Js/session.js"></script>
 </body>
 
 </html>
