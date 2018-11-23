@@ -14,7 +14,7 @@ function breweryData() {
       console.log(r)
       hourSalesGraph(r)
       topItemsGraph(r)
-      salesSumGraph()
+      employeeSalesGraph(r)
       salesGoalGraph()
     })
     .catch(e => console.log(e))
@@ -95,7 +95,7 @@ function customDate() {
   }
 }
 
-// Main's Sales Graph
+//Hours Sales Graph
 function hourSalesGraph(r) {
 
   let timeTotalArray = []
@@ -192,8 +192,14 @@ function hourSalesGraph(r) {
         display: false
       },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
+            autoSkip: false,
             beginAtZero: true,
             callback: function (value, index, values) {
               return '$' + value;
@@ -205,7 +211,7 @@ function hourSalesGraph(r) {
   })
 }
 
-// Top 5 Items Graph
+//Top 5 Items Graph
 function topItemsGraph(r) {
 
   let beerItemArray = []
@@ -250,8 +256,6 @@ function topItemsGraph(r) {
     beerItemSalesArray.push(item.sales)
   })
 
-  console.table(beerItemSalesMaster)
-
   let topFive = document.getElementById("topFive");
   let topFiveItems = new Chart(topFive, {
     type: 'bar',
@@ -274,8 +278,14 @@ function topItemsGraph(r) {
         display: false
       },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
+            autoSkip: false,
             beginAtZero: true,
             callback: function (value, index, values) {
               return '$' + value;
@@ -287,18 +297,59 @@ function topItemsGraph(r) {
   })
 }
 
+// Employee Sales Summary Graph
+function employeeSalesGraph(r) {
 
-// Sales Summary Graph
+  let employeeArray = []
+  let employeeSalesArray = []
+  let employeeSalesMaster = []
 
-function salesSumGraph() {
-  let salesSummary = document.getElementById("salesSumm");
+  // Creates the Beer Item Array for the Fetch Date Range
+  r.forEach(item => {
+    if (employeeArray.includes(item.Employee.full_name) === false) {
+      employeeArray.push(item.Employee.full_name)
+    }
+  })
+
+  // Based on the Beer Item Array Name it sums up total Sales
+  for (let i = 0; i < employeeArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (employeeArray[i] === item.Employee.full_name) {
+        x += item.cost
+      }
+    })
+    employeeSalesArray.push(x)
+  }
+
+  // Puts both arrays into an Object
+  for (let i = 0; i < employeeArray.length; i++) {
+    let x = {
+      name: employeeArray[i],
+      sales: Math.round(employeeSalesArray[i] * 100) / 100
+    }
+    employeeSalesMaster.push(x)
+  }
+
+  // Sorts Array of objects to highest to lowest
+  employeeSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+
+  // Pulls aprat the object into Arrays for Graph
+  employeeArray = []
+  employeeSalesArray = []
+  employeeSalesMaster.map(item => {
+    employeeArray.push(item.name)
+    employeeSalesArray.push(item.sales)
+  })
+
+  let salesSummary = document.getElementById("employeeSales");
   let salesSumm = new Chart(salesSummary, {
     type: 'bar',
     data: {
-      labels: ["Summary 1", "Summary 2", "Summary 3", "Summary 4", "Summary 5"],
+      labels: employeeArray,
       datasets: [{
         label: 'Sales Summary',
-        data: [985, 728, 507, 467, 456],
+        data: employeeSalesArray,
         backgroundColor: [
           'rgb(244, 231, 215)',
           'rgb(244, 231, 215)',
@@ -313,8 +364,14 @@ function salesSumGraph() {
         display: false
       },
       scales: {
+        xAxes:[{
+          ticks:{
+            autoSkip:false
+          }
+        }],
         yAxes: [{
           ticks: {
+            autoSkip: false,
             beginAtZero: true,
             callback: function (value, index, values) {
               return '$' + value;
@@ -351,6 +408,11 @@ function salesGoalGraph() {
         display: false
       },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
             beginAtZero: true,
