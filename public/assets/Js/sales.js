@@ -188,10 +188,16 @@ function hourSalesGraph(r) {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
@@ -200,28 +206,60 @@ function hourSalesGraph(r) {
 }
 
 // Top 5 Items Graph
-
 function topItemsGraph(r) {
 
   let beerItemArray = []
-  let beerItemSalesArray=[]
+  let beerItemSalesArray = []
+  let beerItemSalesMaster = []
 
-  r.forEach(item =>{ 
-    if(beerItemArray.includes(item.Product.name)===false){
+  // Creates the Beer Item Array for the Fetch Date Range
+  r.forEach(item => {
+    if (beerItemArray.includes(item.Product.name) === false) {
       beerItemArray.push(item.Product.name)
     }
   })
 
-  console.log(beerItemArray)
+  // Based on the Beer Item Array Name it sums up total Sales
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (beerItemArray[i] === item.Product.name) {
+        x += item.cost
+      }
+    })
+    beerItemSalesArray.push(x)
+  }
+
+  // Puts both arrays into an Object
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = {
+      name: beerItemArray[i],
+      sales: Math.round(beerItemSalesArray[i] * 100) / 100
+    }
+    beerItemSalesMaster.push(x)
+  }
+
+  // Sorts Array of objects to highest to lowest
+  beerItemSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+
+  // Pulls aprat the object into Arrays for Graph
+  beerItemArray = []
+  beerItemSalesArray = []
+  beerItemSalesMaster.map(item => {
+    beerItemArray.push(item.name)
+    beerItemSalesArray.push(item.sales)
+  })
+
+  console.table(beerItemSalesMaster)
 
   let topFive = document.getElementById("topFive");
   let topFiveItems = new Chart(topFive, {
     type: 'bar',
     data: {
-      labels: ["Beer 1", "Beer 2", "Beer 3", "Beer 4", "Beer 5"],
+      labels: beerItemArray.splice(0, 5),
       datasets: [{
         label: 'Top 5 Items Sold',
-        data: [985, 728, 507, 467, 456],
+        data: beerItemSalesArray.splice(0, 5),
         backgroundColor: [
           'rgb(209, 168, 39)',
           'rgb(209, 168, 39)',
@@ -232,16 +270,23 @@ function topItemsGraph(r) {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
     }
   })
 }
+
 
 // Sales Summary Graph
 
@@ -264,10 +309,16 @@ function salesSumGraph() {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
@@ -296,10 +347,16 @@ function salesGoalGraph() {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
