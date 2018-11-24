@@ -13,23 +13,50 @@ function breweryData() {
 
 function employeeSalesGraph(r) {
 // Variables
-let employeesArray = []
+let employeeArray = []
 let employeeSalesArray = []
+let employeeSalesMaster = []
 
 // Sales by Employee
 r.forEach(item => {
-  if (employeesArray.includes(item.Employee.full_name) === false) {
-    employeesArray.push(item.Employee.full_name)
+  if (employeeArray.includes(item.Employee.full_name) === false) {
+    employeeArray.push(item.Employee.full_name)
   }
 })
 
-console.log(employeesArray)
+  for (let i = 0; i < employeeArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (employeeArray[i] === item.Employee.full_name) {
+        x += item.cost
+      }
+    })
+    employeeSalesArray.push(x)
+  }
 
-  let empSales = document.getElementById("employeeSales");
-  let employeeSales = new Chart(empSales, {
+  for (let i = 0; i < employeeArray.length; i++) {
+    let x = {
+      name: employeeArray[i],
+      sales: Math.round(employeeSalesArray[i] * 100) / 100
+    }
+    employeeSalesMaster.push(x)
+  }
+
+  employeeSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+
+  // Pulls aprat the object into Arrays for Graph
+  employeeArray = []
+  employeeSalesArray = []
+  employeeSalesMaster.map(item => {
+    employeeArray.push(item.name)
+    employeeSalesArray.push(item.sales)
+  })
+
+  let employeeSales = document.getElementById("employeeSales");
+  let empSales = new Chart(employeeSales, {
     type: 'bar',
     data: {
-      labels: ["AMaclaine", "QFults", "MArranz", "LSalcido", "ARoush"],
+      labels: employeeArray,
       datasets: [{
         label: 'Sales by Employee',
         data: employeeSalesArray,
@@ -42,14 +69,28 @@ console.log(employeesArray)
         ]
       }]
     },
-    options: {
+        options: {
+      legend: {
+        display: false
+      },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            autoSkip: false,
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
     }
-  });
+  })
 }
+
+breweryData()
