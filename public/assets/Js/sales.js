@@ -11,11 +11,10 @@ function breweryData() {
   fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
     .then(r => r.json())
     .then(r => {
-      console.log(r)
       hourSalesGraph(r)
       topItemsGraph(r)
-      salesSumGraph()
-      salesGoalGraph()
+      employeeSalesGraph(r)
+      salesGoalGraph(r)
     })
     .catch(e => console.log(e))
 }
@@ -95,7 +94,7 @@ function customDate() {
   }
 }
 
-// Main's Sales Graph
+//Hours Sales Graph
 function hourSalesGraph(r) {
 
   let timeTotalArray = []
@@ -188,10 +187,22 @@ function hourSalesGraph(r) {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            autoSkip: false,
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
@@ -199,29 +210,59 @@ function hourSalesGraph(r) {
   })
 }
 
-// Top 5 Items Graph
-
+//Top 5 Items Graph
 function topItemsGraph(r) {
 
   let beerItemArray = []
-  let beerItemSalesArray=[]
+  let beerItemSalesArray = []
+  let beerItemSalesMaster = []
 
-  r.forEach(item =>{ 
-    if(beerItemArray.includes(item.Product.name)===false){
+  // Creates the Beer Item Array for the Fetch Date Range
+  r.forEach(item => {
+    if (beerItemArray.includes(item.Product.name) === false) {
       beerItemArray.push(item.Product.name)
     }
   })
 
-  console.log(beerItemArray)
+  // Based on the Beer Item Array Name it sums up total Sales
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (beerItemArray[i] === item.Product.name) {
+        x += item.cost
+      }
+    })
+    beerItemSalesArray.push(x)
+  }
+
+  // Puts both arrays into an Object
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = {
+      name: beerItemArray[i],
+      sales: Math.round(beerItemSalesArray[i] * 100) / 100
+    }
+    beerItemSalesMaster.push(x)
+  }
+
+  // Sorts Array of objects to highest to lowest
+  beerItemSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+
+  // Pulls aprat the object into Arrays for Graph
+  beerItemArray = []
+  beerItemSalesArray = []
+  beerItemSalesMaster.map(item => {
+    beerItemArray.push(item.name)
+    beerItemSalesArray.push(item.sales)
+  })
 
   let topFive = document.getElementById("topFive");
   let topFiveItems = new Chart(topFive, {
     type: 'bar',
     data: {
-      labels: ["Beer 1", "Beer 2", "Beer 3", "Beer 4", "Beer 5"],
+      labels: beerItemArray.splice(0, 5),
       datasets: [{
         label: 'Top 5 Items Sold',
-        data: [985, 728, 507, 467, 456],
+        data: beerItemSalesArray.splice(0, 5),
         backgroundColor: [
           'rgb(209, 168, 39)',
           'rgb(209, 168, 39)',
@@ -232,10 +273,22 @@ function topItemsGraph(r) {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            autoSkip: false,
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
@@ -243,17 +296,59 @@ function topItemsGraph(r) {
   })
 }
 
-// Sales Summary Graph
+// Employee Sales Summary Graph
+function employeeSalesGraph(r) {
 
-function salesSumGraph() {
-  let salesSummary = document.getElementById("salesSumm");
+  let employeeArray = []
+  let employeeSalesArray = []
+  let employeeSalesMaster = []
+
+  // Creates the Beer Item Array for the Fetch Date Range
+  r.forEach(item => {
+    if (employeeArray.includes(item.Employee.full_name) === false) {
+      employeeArray.push(item.Employee.full_name)
+    }
+  })
+
+  // Based on the Beer Item Array Name it sums up total Sales
+  for (let i = 0; i < employeeArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (employeeArray[i] === item.Employee.full_name) {
+        x += item.cost
+      }
+    })
+    employeeSalesArray.push(x)
+  }
+
+  // Puts both arrays into an Object
+  for (let i = 0; i < employeeArray.length; i++) {
+    let x = {
+      name: employeeArray[i],
+      sales: Math.round(employeeSalesArray[i] * 100) / 100
+    }
+    employeeSalesMaster.push(x)
+  }
+
+  // Sorts Array of objects to highest to lowest
+  employeeSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+
+  // Pulls aprat the object into Arrays for Graph
+  employeeArray = []
+  employeeSalesArray = []
+  employeeSalesMaster.map(item => {
+    employeeArray.push(item.name)
+    employeeSalesArray.push(item.sales)
+  })
+
+  let salesSummary = document.getElementById("employeeSales");
   let salesSumm = new Chart(salesSummary, {
     type: 'bar',
     data: {
-      labels: ["Summary 1", "Summary 2", "Summary 3", "Summary 4", "Summary 5"],
+      labels: employeeArray,
       datasets: [{
         label: 'Sales Summary',
-        data: [985, 728, 507, 467, 456],
+        data: employeeSalesArray,
         backgroundColor: [
           'rgb(244, 231, 215)',
           'rgb(244, 231, 215)',
@@ -264,10 +359,22 @@ function salesSumGraph() {
       }]
     },
     options: {
+      legend: {
+        display: false
+      },
       scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
         yAxes: [{
           ticks: {
-            beginAtZero: true
+            autoSkip: false,
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
           }
         }]
       }
@@ -276,35 +383,60 @@ function salesSumGraph() {
 }
 
 // Sales Goals Graph
+function salesGoalGraph(r) {
 
-function salesGoalGraph() {
-  let sGoals = document.getElementById("salesGoals");
-  let salesGoals = new Chart(sGoals, {
-    type: 'bar',
-    data: {
-      labels: ["Achievement 1", "Achievement 2", "Achievement 3", "Achievement 4", "Achievement 5"],
-      datasets: [{
-        label: 'Sales Goals',
-        data: [985, 728, 507, 467, 456],
-        backgroundColor: [
-          'rgb(63, 66, 52)',
-          'rgb(63, 66, 52)',
-          'rgb(63, 66, 52)',
-          'rgb(63, 66, 52)',
-          'rgb(63, 66, 52)',
-        ]
-      }]
-    },
-    options: {
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true
-          }
-        }]
-      }
-    }
+  // Finding the Total Sales
+  let totalSales = 0
+  r.forEach(item => {
+    totalSales += item.cost
   })
+
+  fetch("/goals")
+  .then(d => d.json())
+  .then(d => {
+
+    let totalGoalSales = 0
+  
+    // Start Date to Pull From
+    let y = moment(startDate, "YYYY-MM-DD").startOf("month").format("YYYY-MM-DD")
+
+    // How many days between the start Date and End Date
+    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
+    
+    d.forEach(goal => {
+        if (y === goal.Date) {
+          totalGoalSales = goal.day_average_sales_goal * dayDiff
+
+        let percentageGoal = Math.round(totalSales / totalGoalSales *100)/100
+        
+        let diffpercentageGoal = 0
+
+        if(percentageGoal<=1){
+          diffpercentageGoal = Math.round((1- percentageGoal)*100)/100
+        }
+
+          let sGoals = document.getElementById("salesGoals");
+          let salesGoals = new Chart(sGoals, {
+            type: 'doughnut',
+            data: {
+              labels: ["Goal Acheived", "Goal Left"],
+              datasets: [{
+                label: 'Sales by Employee',
+                data: [percentageGoal, diffpercentageGoal],
+                backgroundColor: [
+                  'rgb(209, 168, 39)',
+                  'rgb(161, 187, 208)'
+                ]
+              }]
+            },
+            options: {
+              showAllTooltips: true
+            }
+          })
+        }
+      })
+    })
+    .catch(e => console.log(e))
 }
 
 breweryData()
