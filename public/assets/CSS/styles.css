@@ -1,4 +1,4 @@
-/* index page */
+/* INDEX */
 .indexBtn {
   background-color: #4a8d68;
   border-radius: 10px;
@@ -6,7 +6,7 @@
   margin-right: 10px;
 }
 .indexBtn:hover {
-  background-color: #a1bbd0;
+  background-color: #43c77a;
   border-radius: 10px;
   color: white;
 }
@@ -14,7 +14,7 @@
   justify-content: space-around;
   margin: 0px 10px 15px 10px;
 }
-/* universal */
+/* UNIVERSAL */
 body {
   background-color: rgb(241, 239, 239);
 }
@@ -57,4 +57,54 @@ a:visited {
 .card{
 margin-left: 10px;
 margin-right: 10px;
+}
+#brandLogo{
+    width: 150px;
+    height: 50px;
+    border: 4px solid #c2c16e;
+    border-radius: 4px;
+    margin: 7px;
+}
+#userPhoto{
+  height: 50px;
+  border-radius: 100%;
+}
+/* EMPLOYEE */
+.employeePic {
+  height: 20px;
+  width: auto;
+}
+.collection {
+  height: 420px;
+}
+.addEmployee {
+  background-color: #a1bbd0;
+}
+.scheduleHeader {
+  background-color: #a1bbd0;
+  opacity: .6;
+  font-size: 13px;
+}
+.employeeSchedule {
+  width: 800px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+  font-size: 85%;
+}
+/* SALES */
+.date-filter {
+  background-color: white;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.picker__date-display {
+  background-color: #a1bbd0;
+}
+.picker__weekday-display {
+  background-color:#d1a827;
+}
+.picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
+  background-color:#d1a827;
 }

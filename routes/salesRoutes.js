@@ -12,34 +12,17 @@ module.exports = app => {
     })
 
     // sales by period
-    app.get('/sales/:period', (req, res) => {
-        let startDate
-        let endDate
+    app.get('/sales/:period-:custom1-:custom2', (req, res) => {
         // Determine period's start and end
-        switch (req.params.period) {
-            // >> TODO <<  CALCULATE EACH START AND END DATE
-            case 'month':
-                startDate = '2017-10-01'
-                endDate = '2017-10-31'
-                break
-            case 'week':
-                startDate = '2017-11-04'
-                endDate = '2017-11-10'
-                break
-            case 'yesterday':
-                startDate = '2017-11-12'
-                endDate = '2017-11-12'
-                break
-            case 'today':
-                startDate = '2017-11-13'
-                endDate = '2017-11-13'
-                break
-        }
+        let startDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).start
+        let endDate = require('../data/getPeriod')(req.params.period, req.params.custom1, req.params.custom2).end
 
         db.Sales.findAll({
             where: {
-                [Op.gte]: startDate,
-                [Op.lte]: endDate
+                transaction_date: {
+                    [Op.gte]: startDate,
+                    [Op.lte]: endDate
+                }
             },
             include: [db.Products, db.Employees]
         })

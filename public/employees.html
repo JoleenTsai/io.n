@@ -17,10 +17,12 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-color-scheme.png" alt="lot17a" width="235px" height="65px"></i></a>
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a"
+            id="brandLogo"></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
-          <li><a href="#" class="nav-links">Username</a></li>
+          <li><a href="#" class="nav-links"><span id="userFirst">user</span> <span id="userLast">name</span></a></li>
+          <li><a href="#" class="nav-links"><img src="" alt="user photo" id="userPhoto"></a></li>
         </ul>
       </div>
     </nav>
@@ -53,44 +55,200 @@
       <!-- main content -->
       <div class="mainContent center-align">
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Today's Employees<i class="material-icons right">more_vert</i></span>
-            <p><a href="#">Detailed Report</a></p>
+            <span class="card-title activator grey-text text-darken-4">Today's Employees</span>
+            <ul class="collection">
+              <li class="collection-item avatar">
+                <img src="./assets/Images/user.employee.images/employee/amaclaine.jpeg" alt="amaclaine" class="circle employeePic">
+                <span class="title">Phone: 123-456-7890</span>
+                <p>amaclaine@lot17a.com</p>
+              </li>
+              <li class="collection-item avatar">
+                <img src="./assets/Images/user.employee.images/employee/qfults.jpeg" alt="qfults" class="circle employeePic">
+                <span class="title">Phone: 123-456-7890</span>
+                <p>qfults@lot17a.com</p>
+              </li>
+              <li class="collection-item avatar">
+                <img src="./assets/Images/user.employee.images/employee/marranz.jpeg" alt="marranz" class="circle employeePic">
+                <span class="title">Phone: 123-456-7890</span>
+                <p>marranz@lot17a.com</p>
+              </li>
+              <li class="collection-item avatar">
+                <img src="./assets/Images/user.employee.images/employee/lsalcido.jpeg" alt="lsalcido" class="circle employeePic">
+                <span class="title">Phone: 123-456-7890</span>
+                <p>lsalcido@lot17a.com</p>
+              </li>
+              <li class="collection-item avatar">
+                <img src="./assets/Images/user.employee.images/employee/aroush.jpeg" alt="aroush" class="circle employeePic">
+                <span class="title">Phone: 123-456-7890</span>
+                <p>aroush@lot17a.com</p>
+              </li>
+            </ul>
+            <a class="btn-floating btn-sm waves-effect waves-light addEmployee"><i class="material-icons">add</i></a>
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Sales Leaders<i class="material-icons right">more_vert</i></span>
+            <span class="card-title activator grey-text text-darken-4">Sales Leaders</span>
             <p><a href="#">Detailed Report</a></p>
+            <canvas id="employeeSales" width="400" height="513"></canvas>
           </div>
         </div>
-        <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
+        <div class="card col s12 m10 l10">
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Employee Timecards<i class="material-icons right">more_vert</i></span>
-            <p><a href="#">Detailed Report</a></p>
+            <span class="card-title activator grey-text text-darken-4">Employee Weekly Schedule</span>
+            <p>Sun-Mon, Dec 2-8, 2018</p>
+            <table class="striped centered responsive-table employeeSchedule">
+              <thead class="scheduleHeader">
+                <tr>
+                  <th>Name</th>
+                  <th>Employee ID</th>
+                  <th>Su</th>
+                  <th>M</th>
+                  <th>Tu</th>
+                  <th>W</th>
+                  <th>Th</th>
+                  <th>F</th>
+                  <th>Sa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>AMaclaine</td>
+                  <td>1</td>
+                  <td>OFF</td>
+                  <td>12-8pm</td>
+                  <td>12-6pm</td>
+                  <td>2-10pm</td>
+                  <td>OFF</td>
+                  <td>12-8pm</td>
+                  <td>4-12am</td>
+                </tr>
+                <tr>
+                  <td>QFults</td>
+                  <td>2</td>
+                  <td>4-12am</td>
+                  <td>OFF</td>
+                  <td>12-8pm</td>
+                  <td>2-10pm</td>
+                  <td>12-6pm</td>
+                  <td>12-8pm</td>
+                  <td>OFF</td>
+                </tr>
+                <tr>
+                  <td>MArranz</td>
+                  <td>3</td>
+                  <td>2-10pm</td>
+                  <td>4-12am</td>
+                  <td>OFF</td>
+                  <td>12-8pm</td>
+                  <td>12-8pm</td>
+                  <td>OFF</td>
+                  <td>12-6pm</td>
+                </tr>
+                <tr>
+                  <td>LSalcido</td>
+                  <td>4</td>
+                  <td>2-10pm</td>
+                  <td>12-6pm</td>
+                  <td>4-12am</td>
+                  <td>OFF</td>
+                  <td>OFF</td>
+                  <td>4-12am</td>
+                  <td>2-10pm</td>
+                </tr>
+                <tr>
+                  <td>ARoush</td>
+                  <td>5</td>
+                  <td>12-8pm</td>
+                  <td>OFF</td>
+                  <td>OFF</td>
+                  <td>4-12am</td>
+                  <td>4-12am</td>
+                  <td>2-10pm</td>
+                  <td>2-10pm</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-        <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Employee Absences<i class="material-icons right">more_vert</i></span>
-            <p><a href="#">Detailed Report</a></p>
-          </div>
-        </div>
-      </div>
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+        <script>
+          // doughnut tooltip plugin
+          Chart.pluginService.register({
+            beforeRender: function (chart) {
+              if (chart.config.options.showAllTooltips) {
+                // create an array of tooltips
+                // we can't use the chart tooltip because there is only one tooltip per chart
+                chart.pluginTooltips = [];
+                chart.config.data.datasets.forEach(function (dataset, i) {
+                  chart.getDatasetMeta(i).data.forEach(function (sector, j) {
+                    chart.pluginTooltips.push(new Chart.Tooltip({
+                      _chart: chart.chart,
+                      _chartInstance: chart,
+                      _data: chart.data,
+                      _options: chart.options.tooltips,
+                      _active: [sector]
+                    }, chart));
+                  });
+                });
+                // turn off normal tooltips
+                chart.options.tooltips.enabled = false;
+              }
+            },
+            afterDraw: function (chart, easing) {
+              if (chart.config.options.showAllTooltips) {
+                // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
+                if (!chart.allTooltipsOnce) {
+                  if (easing !== 1)
+                    return;
+                  chart.allTooltipsOnce = true;
+                }
+                // turn on tooltips
+                chart.options.tooltips.enabled = true;
+                Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
+                  tooltip.initialize();
+                  tooltip.update();
+                  // we don't actually need this since we are not animating tooltips
+                  tooltip.pivot();
+                  tooltip.transition(easing).draw();
+                });
+                chart.options.tooltips.enabled = false;
+              }
+            }
+          });
+          //Sales by Employee
+          // Sales by Employee
+          let empSales = document.getElementById("employeeSales");
+          let employeeSales = new Chart(empSales, {
+            type: 'bar',
+            data: {
+              labels: ["AMaclaine", "QFults", "MArranz", "LSalcido", "ARoush"],
+              datasets: [{
+                label: 'Sales by Employee',
+                data: [985, 728, 507, 467, 456],
+                backgroundColor: [
+                  '#d1a827',
+                  '#d1a827',
+                  '#d1a827',
+                  '#d1a827',
+                  '#d1a827',
+                ]
+              }]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  ticks: {
+                    beginAtZero: true
+                  }
+                }]
+              }
+            }
+          });
+        </script>
 </body>
 
 </html>

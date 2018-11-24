@@ -7,8 +7,9 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="./assets/CSS/reset.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
   <link rel="stylesheet" href="./assets/CSS/styles.css">
   <title>io.n</title>
 </head>
@@ -17,10 +18,12 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-color-scheme.png" alt="lot17a" width="235px" height="65px"></i></a>
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a"
+            id="brandLogo"></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
-          <li><a href="#" class="nav-links">Username</a></li>
+          <li><a href="#" class="nav-links"><span id="userFirst">user</span> <span id="userLast">name</span></a></li>
+          <li><a href="#" class="nav-links"><img src="" alt="user photo" id="userPhoto"></a></li>
         </ul>
       </div>
     </nav>
@@ -46,69 +49,290 @@
             <a href="goals.html" class="">Goals</a>
           </li>
         </ul>
+
+        <div class="date-filter">
+          <div class="row">
+            <label style="margin-top: 4px; color: #d1a827;">Date Filter</label>
+            <select onchange="dateAutoFill()" id="period" style="margin-top: 4px" class="browser-default">
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="lastWeek">Last Week</option>
+              <option value="lastMonth">Last Month</option>
+              <option value="lastYear">Last Year</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <p style="color: #d1a827;">Choose Date:</p>
+            <div class="s12 input-field">
+              <input onchange="customDate()" id="startDate" type="date" class="datepicker" placeholder="">
+              <label for="startDate" style="color: #d1a827;">Start Date</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="s12 input-field">
+              <input onchange="customDate()" id="endDate" type="date" class="datepicker" placeholder="">
+              <label for="endDate" style="color: #d1a827;">End Date</label>
+            </div>
+          </div>
+          <div class="row" id="invalidDate" style="color:red"></div>
+        </div>
       </div>
     </div>
+
+
     <!-- cards -->
     <div class="col s10 l10">
+
       <!-- main content -->
       <div class="mainContent center-align">
+
         <div class="card col s12 m6 l5">
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Today's Sales<i class="material-icons right">more_vert</i></span>
+            <span class="card-title activator grey-text text-darken-4" id="mainSalesTitle">Today's Sales</span>
             <p><a href="#">Detailed Report</a></p>
             <canvas id="todaySales" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Top Five Items Sold<i class="material-icons right">more_vert</i></span>
+            <span class="card-title activator grey-text text-darken-4">Top Five Items Sold</span>
             <p><a href="#">Detailed Report</a></p>
             <canvas id="topFive" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Sales Summaries<i class="material-icons right">more_vert</i></span>
+            <span class="card-title activator grey-text text-darken-4">Sales Summaries</span>
             <p><a href="#">Detailed Report</a></p>
             <canvas id="salesSumm" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Sales Goals<i class="material-icons right">more_vert</i></span>
+            <span class="card-title activator grey-text text-darken-4">Sales Goals</span>
             <p><a href="#">Detailed Report</a></p>
             <canvas id="salesGoals" width="400" height="400"></canvas>
           </div>
         </div>
       </div>
-      <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
-      <script>
-        // Today's Sales
+    </div>
+
+
+
+    <!-- Compiled and minified JavaScript -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+
+    <script>
+      // Materialize Date Pickup
+      $(document).ready(function () {
+        $(".datepicker").pickadate({
+          onSet: function () {
+            $('.picker__close').click();
+          },
+          format: "yyyy-mm-dd"
+        });
+      });
+
+      // Variables
+      let startDate = moment().format("YYYY-MM-DD")
+      let endDate = moment().format("YYYY-MM-DD")
+      let period = 'today'
+      let timeTotalArray = []
+      document.getElementById("startDate").value = startDate
+      document.getElementById("endDate").value = endDate
+
+      // time Intveral Looper
+      function timeInterval(r) {
+        let time12Total = 0
+        let time13Total = 0
+        let time14Total = 0
+        let time15Total = 0
+        let time16Total = 0
+        let time17Total = 0
+        let time18Total = 0
+        let time19Total = 0
+        let time20Total = 0
+        let time21Total = 0
+        let time22Total = 0
+        let time23Total = 0
+        let time24Total = 0
+
+        r.forEach(sale => {
+          switch (moment(sale.transaction_time, "HH:mm:ss").format("HH")) {
+            case "12":
+              time12Total += sale.cost
+              break;
+            case "13":
+              time13Total += sale.cost
+              break;
+            case "14":
+              time14Total += sale.cost
+              break;
+            case "15":
+              time15Total += sale.cost
+              break;
+            case "16":
+              time16Total += sale.cost
+              break;
+            case "17":
+              time17Total += sale.cost
+              break;
+            case "18":
+              time18Total += sale.cost
+              break;
+            case "19":
+              time19Total += sale.cost
+              break;
+            case "20":
+              time20Total += sale.cost
+              break;
+            case "21":
+              time21Total += sale.cost
+              break;
+            case "22":
+              time22Total += sale.cost
+              break;
+            case "23":
+              time23Total += sale.cost
+              break;
+            case "24":
+              time24Total += sale.cost
+              break;
+          }
+        })
+
+        timeTotalArray = [Math.round(time12Total * 100) / 100,
+        Math.round(time13Total * 100) / 100,
+        Math.round(time14Total * 100) / 100,
+        Math.round(time15Total * 100) / 100,
+        Math.round(time16Total * 100) / 100,
+        Math.round(time17Total * 100) / 100,
+        Math.round(time18Total * 100) / 100,
+        Math.round(time19Total * 100) / 100,
+        Math.round(time20Total * 100) / 100,
+        Math.round(time21Total * 100) / 100,
+        Math.round(time22Total * 100) / 100,
+        Math.round(time23Total * 100) / 100,
+        Math.round(time24Total * 100) / 100
+        ]
+      }
+
+      // // Fetch all of the sales data
+      function breweryData() {
+        fetch(`/sales/${period}-${startDate}-${endDate}`)
+          .then(r => r.json())
+          .then(r => {
+            console.log(r)
+            timeInterval(r)
+            mainSalesGraph(timeTotalArray)
+            topItemsGraph()
+            salesSumGraph()
+            salesGoalGraph()
+          })
+          .catch(e => console.log(e))
+      }
+
+      // Period Filter Function
+      function dateAutoFill() {
+        event.preventDefault()
+
+        period = document.querySelector('#period').value
+
+        switch (period) {
+
+          case "today":
+            startDate = moment().format("YYYY-MM-DD")
+            endDate = moment().format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            document.querySelector('#mainSalesTitle').innerHTML = `Today's Sales`
+            breweryData()
+            break;
+
+          case "yesterday":
+            startDate = moment().subtract(1, 'day').format("YYYY-MM-DD")
+            endDate = startDate
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            document.querySelector('#mainSalesTitle').innerHTML = `Yesterday's Sales`
+            breweryData()
+            break;
+
+          case "lastWeek":
+            startDate = moment().day(-7).format("YYYY-MM-DD")
+            endDate = moment().day(-1).format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            document.querySelector('#mainSalesTitle').innerHTML = `Last Week's Sales`
+            breweryData()
+            break;
+
+          case "lastMonth":
+            startDate = moment().subtract(1, 'month').startOf('month').format("YYYY-MM-DD")
+            endDate = moment().subtract(1, 'month').endOf('month').format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            document.querySelector('#mainSalesTitle').innerHTML = `Last Month's Sales`
+            breweryData()
+            break;
+
+          case "lastYear":
+            startDate = moment().subtract(1, 'year').startOf('month').format("YYYY-MM-DD")
+            endDate = moment().subtract(1, 'month').endOf('month').format("YYYY-MM-DD")
+            document.getElementById("startDate").value = startDate
+            document.getElementById("endDate").value = endDate
+            document.querySelector('#invalidDate').innerHTML = ``
+            document.querySelector('#mainSalesTitle').innerHTML = `Last Year's Sales`
+            breweryData()
+            break;
+
+          default:
+        }
+      }
+
+      //Custom Date Filter Function
+      function customDate() {
+        period = 'custom'
+        document.querySelector('#period').value = ""
+        startDate = document.getElementById("startDate").value
+        endDate = document.getElementById("endDate").value
+
+        if (startDate > endDate || startDate === "" || endDate === "") {
+          document.querySelector('#invalidDate').innerHTML = `
+          <p>Invalid Date!</p>
+          `
+        } else {
+          document.querySelector('#invalidDate').innerHTML = ``
+          console.log("Good")
+          breweryData()
+        }
+      }
+
+
+
+      // Main's Sales Graph
+      function mainSalesGraph(timeTotalArray) {
+        console.log(timeTotalArray)
         let salesToday = document.getElementById("todaySales");
         let todaySales = new Chart(salesToday, {
-          type: 'bar',
+          type: 'line',
           data: {
-            labels: ["12pm", '', "2pm", '', "4pm", '', "6pm", '', "8pm", '', "10pm", '', "12am"],
+            labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
             datasets: [{
               label: 'Sales by hour',
-              data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
-              backgroundColor: [
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)',
-                'rgb(209, 168, 39)'
-              ]
+              data: timeTotalArray,
+              fill: false,
+              borderColor: 'rgb(161, 187, 208)',
+              lineTension: 0.1
             }]
           },
           options: {
@@ -120,9 +344,12 @@
               }]
             }
           }
-        });
+        })
+      }
 
-        // Top 5 Items
+      // Top 5 Items Graph
+
+      function topItemsGraph() {
         let topFive = document.getElementById("topFive");
         let topFiveItems = new Chart(topFive, {
           type: 'bar',
@@ -132,11 +359,11 @@
               label: 'Top 5 Items Sold',
               data: [985, 728, 507, 467, 456],
               backgroundColor: [
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
-                'rgb(161, 187, 208)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
+                'rgb(209, 168, 39)',
               ]
             }]
           },
@@ -149,8 +376,12 @@
               }]
             }
           }
-        });
-        // Sales Summary
+        })
+      }
+
+      // Sales Summary Graph
+
+      function salesSumGraph() {
         let salesSummary = document.getElementById("salesSumm");
         let salesSumm = new Chart(salesSummary, {
           type: 'bar',
@@ -177,8 +408,12 @@
               }]
             }
           }
-        });
-        // Sales Goals
+        })
+      }
+
+      // Sales Goals Graph
+
+      function salesGoalGraph() {
         let sGoals = document.getElementById("salesGoals");
         let salesGoals = new Chart(sGoals, {
           type: 'bar',
@@ -205,12 +440,13 @@
               }]
             }
           }
-        });
+        })
+      }
 
-        // 
-      </script>
+      breweryData()
+    </script>
 
-    </body>
+</body>
 
 
 
