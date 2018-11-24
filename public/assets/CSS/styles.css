@@ -71,11 +71,12 @@ margin-right: 10px;
 }
 /* EMPLOYEE */
 .employeePic {
-  height: 20px;
-  width: auto;
+  height: 15px;
+  /* width: auto; */
 }
 .collection {
-  height: 420px;
+  height: 397px;
+  font-size: 14px;
 }
 .scheduleHeader {
   background-color: #a1bbd0;
