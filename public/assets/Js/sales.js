@@ -11,7 +11,6 @@ function breweryData() {
   fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
     .then(r => r.json())
     .then(r => {
-      console.log(r)
       hourSalesGraph(r)
       topItemsGraph(r)
       employeeSalesGraph(r)
@@ -395,34 +394,26 @@ function salesGoalGraph(r) {
   fetch("/goals")
   .then(d => d.json())
   .then(d => {
-    console.log(d)
 
     let totalGoalSales = 0
   
     // Start Date to Pull From
     let y = moment(startDate, "YYYY-MM-DD").startOf("month").format("YYYY-MM-DD")
-    console.log(y)
 
     // How many days between the start Date and End Date
     let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
-    console.log(dayDiff)
     
     d.forEach(goal => {
         if (y === goal.Date) {
           totalGoalSales = goal.day_average_sales_goal * dayDiff
-          console.log(totalGoalSales)
-          console.log(totalSales)
 
         let percentageGoal = Math.round(totalSales / totalGoalSales *100)/100
-        console.log(percentageGoal)
-
+        
         let diffpercentageGoal = 0
 
         if(percentageGoal<=1){
           diffpercentageGoal = Math.round((1- percentageGoal)*100)/100
         }
-
-        console.log(diffpercentageGoal) 
 
           let sGoals = document.getElementById("salesGoals");
           let salesGoals = new Chart(sGoals, {
@@ -442,17 +433,10 @@ function salesGoalGraph(r) {
               showAllTooltips: true
             }
           })
-
-
-
-
         }
       })
     })
     .catch(e => console.log(e))
-    
-
-  
 }
 
 breweryData()
