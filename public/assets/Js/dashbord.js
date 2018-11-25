@@ -3,18 +3,21 @@ let endDate = moment().format("YYYY-MM-DD")
 let period = 'today'
 let timeTotalArray = []
 
+document.querySelector('#todayDate').innerHTML=`Based on ${startDate}`
+
 // Fetch all of the sales data
 function breweryData() {
   fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
     .then(r => r.json())
     .then(r => {
       console.log(r)
+      hourSalesGraph(r)
       
     })
     .catch(e => console.log(e))
 }
 
-
+breweryData()
 
 
 // doughnut tooltip plugin
@@ -63,30 +66,123 @@ Chart.pluginService.register({
   }
 });
 
-// Today's Sales
-let salesToday = document.getElementById("todaySales");
-let todaySales = new Chart(salesToday, {
-  type: 'line',
-  data: {
-    labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
-    datasets: [{
-      label: 'Sales by hour',
-      data: [200, 100, 50, 25, 35, 48, 60, 80, 400, 500, 550, 545, 550],
-      fill: false,
-      borderColor: 'rgb(161, 187, 208)',
-      lineTension: 0.1
-    }]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true
-        }
-      }]
+//Hours Sales Graph
+function hourSalesGraph(r) {
+
+  let timeTotalArray = []
+
+  // time Intveral Looper
+  let time12Total = 0
+  let time13Total = 0
+  let time14Total = 0
+  let time15Total = 0
+  let time16Total = 0
+  let time17Total = 0
+  let time18Total = 0
+  let time19Total = 0
+  let time20Total = 0
+  let time21Total = 0
+  let time22Total = 0
+  let time23Total = 0
+  let time24Total = 0
+
+  r.forEach(sale => {
+    switch (moment(sale.transaction_time, "HH:mm:ss").format("HH")) {
+      case "12":
+        time12Total += sale.cost
+        break;
+      case "13":
+        time13Total += sale.cost
+        break;
+      case "14":
+        time14Total += sale.cost
+        break;
+      case "15":
+        time15Total += sale.cost
+        break;
+      case "16":
+        time16Total += sale.cost
+        break;
+      case "17":
+        time17Total += sale.cost
+        break;
+      case "18":
+        time18Total += sale.cost
+        break;
+      case "19":
+        time19Total += sale.cost
+        break;
+      case "20":
+        time20Total += sale.cost
+        break;
+      case "21":
+        time21Total += sale.cost
+        break;
+      case "22":
+        time22Total += sale.cost
+        break;
+      case "23":
+        time23Total += sale.cost
+        break;
+      case "24":
+        time24Total += sale.cost
+        break;
     }
-  }
-});
+  })
+
+  timeTotalArray = [Math.round(time12Total * 100) / 100,
+  Math.round(time13Total * 100) / 100,
+  Math.round(time14Total * 100) / 100,
+  Math.round(time15Total * 100) / 100,
+  Math.round(time16Total * 100) / 100,
+  Math.round(time17Total * 100) / 100,
+  Math.round(time18Total * 100) / 100,
+  Math.round(time19Total * 100) / 100,
+  Math.round(time20Total * 100) / 100,
+  Math.round(time21Total * 100) / 100,
+  Math.round(time22Total * 100) / 100,
+  Math.round(time23Total * 100) / 100,
+  Math.round(time24Total * 100) / 100
+  ]
+
+  let salesToday = document.getElementById("todaySales");
+  let todaySales = new Chart(salesToday, {
+    type: 'line',
+    data: {
+      labels: ["12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm", "12am"],
+      datasets: [{
+        label: 'Sales by hour',
+        data: timeTotalArray,
+        fill: false,
+        borderColor: 'rgb(161, 187, 208)',
+        lineTension: 0.1
+      }]
+    },
+    options: {
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          ticks: {
+            autoSkip: false
+          }
+        }],
+        yAxes: [{
+          ticks: {
+            autoSkip: false,
+            beginAtZero: true,
+            callback: function (value, index, values) {
+              return '$' + value;
+            }
+          }
+        }]
+      }
+    }
+  })
+}
+
+
 // Sales by Employee
 let empSales = document.getElementById("employeeSales");
 let employeeSales = new Chart(empSales, {
