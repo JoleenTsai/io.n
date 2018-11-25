@@ -77,9 +77,6 @@ margin-right: 10px;
 .collection {
   height: 420px;
 }
-.addEmployee {
-  background-color: #a1bbd0;
-}
 .scheduleHeader {
   background-color: #a1bbd0;
   opacity: .6;
@@ -98,7 +95,6 @@ margin-right: 10px;
   padding: 10px;
   font-size: 12px;
 }
-
 .picker__date-display {
   background-color: #a1bbd0;
 }
@@ -107,4 +103,8 @@ margin-right: 10px;
 }
 .picker__day--selected, .picker__day--selected:hover, .picker--focused .picker__day--selected {
   background-color:#d1a827;
+}
+#period {
+  border: none;
+  font-size: 14px;
 }

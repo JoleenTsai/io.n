@@ -17,12 +17,12 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a"
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/images/lot17a-logo-small.png" alt="lot17a"
             id="brandLogo"></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
-          <li><a href="#" class="nav-links"><span id="userFirst">user</span> <span id="userLast">name</span></a></li>
-          <li><a href="#" class="nav-links"><img src="" alt="user photo" id="userPhoto"></a></li>
+          <li><a href="#" class="nav-links valign-wrapper"><span id="userFirst">user</span> &nbsp;<span id="userLast">name</span>&nbsp;<img
+                src="" alt="user photo" id="userPhoto"></a></li>
         </ul>
       </div>
     </nav>
@@ -47,6 +47,9 @@
           <li>
             <a href="goals.html" class="">Goals</a>
           </li>
+          <li>
+            <a class="grey-text darken-4" onclick="logout()">Logout</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -59,45 +62,43 @@
             <span class="card-title activator grey-text text-darken-4">Today's Employees</span>
             <ul class="collection">
               <li class="collection-item avatar">
-                <img src="./assets/Images/user.employee.images/employee/amaclaine.jpeg" alt="amaclaine" class="circle employeePic">
+                <img src="./assets/images/employee/amaclaine.jpeg" alt="amaclaine" class="circle employeePic">
                 <span class="title">Phone: 123-456-7890</span>
                 <p>amaclaine@lot17a.com</p>
               </li>
               <li class="collection-item avatar">
-                <img src="./assets/Images/user.employee.images/employee/qfults.jpeg" alt="qfults" class="circle employeePic">
+                <img src="./assets/images/employee/qfults.jpeg" alt="qfults" class="circle employeePic">
                 <span class="title">Phone: 123-456-7890</span>
                 <p>qfults@lot17a.com</p>
               </li>
               <li class="collection-item avatar">
-                <img src="./assets/Images/user.employee.images/employee/marranz.jpeg" alt="marranz" class="circle employeePic">
+                <img src="./assets/images/employee/marranz.jpeg" alt="marranz" class="circle employeePic">
                 <span class="title">Phone: 123-456-7890</span>
                 <p>marranz@lot17a.com</p>
               </li>
               <li class="collection-item avatar">
-                <img src="./assets/Images/user.employee.images/employee/lsalcido.jpeg" alt="lsalcido" class="circle employeePic">
+                <img src="./assets/images/employee/lsalcido.jpeg" alt="lsalcido" class="circle employeePic">
                 <span class="title">Phone: 123-456-7890</span>
                 <p>lsalcido@lot17a.com</p>
               </li>
               <li class="collection-item avatar">
-                <img src="./assets/Images/user.employee.images/employee/aroush.jpeg" alt="aroush" class="circle employeePic">
+                <img src="./assets/images/employee/aroush.jpeg" alt="aroush" class="circle employeePic">
                 <span class="title">Phone: 123-456-7890</span>
                 <p>aroush@lot17a.com</p>
               </li>
             </ul>
-            <a class="btn-floating btn-sm waves-effect waves-light addEmployee"><i class="material-icons">add</i></a>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Leaders</span>
-            <p><a href="#">Detailed Report</a></p>
-            <canvas id="employeeSales" width="400" height="513"></canvas>
+            <canvas id="employeeSales" width="400" height="434"></canvas>
           </div>
         </div>
         <div class="card col s12 m10 l10">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Employee Weekly Schedule</span>
-            <p>Sun-Mon, Dec 2-8, 2018</p>
+            <p>Sun-Mon, Nov 25 - Dec 1, 2018</p>
             <table class="striped centered responsive-table employeeSchedule">
               <thead class="scheduleHeader">
                 <tr>
@@ -173,9 +174,14 @@
           </div>
         </div>
         <!-- Compiled and minified JavaScript -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+        <script src="./assets/Js/session.js"></script>
+        <script src="./assets/Js/employees.js"></script>
         <script>
+
           // doughnut tooltip plugin
           Chart.pluginService.register({
             beforeRender: function (chart) {
@@ -216,35 +222,6 @@
                   tooltip.transition(easing).draw();
                 });
                 chart.options.tooltips.enabled = false;
-              }
-            }
-          });
-          //Sales by Employee
-          // Sales by Employee
-          let empSales = document.getElementById("employeeSales");
-          let employeeSales = new Chart(empSales, {
-            type: 'bar',
-            data: {
-              labels: ["AMaclaine", "QFults", "MArranz", "LSalcido", "ARoush"],
-              datasets: [{
-                label: 'Sales by Employee',
-                data: [985, 728, 507, 467, 456],
-                backgroundColor: [
-                  '#d1a827',
-                  '#d1a827',
-                  '#d1a827',
-                  '#d1a827',
-                  '#d1a827',
-                ]
-              }]
-            },
-            options: {
-              scales: {
-                yAxes: [{
-                  ticks: {
-                    beginAtZero: true
-                  }
-                }]
               }
             }
           });

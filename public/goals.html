@@ -17,12 +17,12 @@
   <div class="navbar">
     <nav class="white blue-text">
       <div class="nav-wrapper">
-        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/Images/lot17a-logo-small.png" alt="lot17a"
+        <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/images/lot17a-logo-small.png" alt="lot17a"
             id="brandLogo"></a>
         <ul class="right">
           <li><a href="#" class="nav-links">Notifications<span class="new badge" id="alerts">4</span></a></li>
-          <li><a href="#" class="nav-links"><span id="userFirst">user</span> <span id="userLast">name</span></a></li>
-          <li><a href="#" class="nav-links"><img src="" alt="user photo" id="userPhoto"></a></li>
+          <li><a href="#" class="nav-links valign-wrapper"><span id="userFirst">user</span> &nbsp;<span id="userLast">name</span>&nbsp;<img
+                src="" alt="user photo" id="userPhoto"></a></li>
         </ul>
       </div>
     </nav>
@@ -47,6 +47,9 @@
           <li>
             <a href="goals.html" class="active">Goals</a>
           </li>
+          <li>
+            <a class="grey-text darken-4" onclick="logout()">Logout</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -57,21 +60,18 @@
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Sales Goals</span>
-            <p><a href="#">Detailed Report</a></p>
             <canvas id="salesGoals" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Quarterly Goals</span>
-            <p><a href="#">Detailed Report</a></p>
             <canvas id="quarterlyGoals" width="400" height="400"></canvas>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Yearly Goals</span>
-            <p><a href="#">Detailed Report</a></p>
             <canvas id="yearlyGoals" width="400" height="400"></canvas>
 
           </div>
@@ -79,9 +79,8 @@
         <div class="card col s12 m6 l5">
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Employee Sales YTD</span>
-            <p><a href="#">Detailed Report</a></p>
             <canvas id="employeeSalesYTD" width="400" height="400"></canvas>
-
+            
           </div>
         </div>
       </div>
@@ -89,6 +88,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="./assets/Js/session.js"></script>
 
     <script>
 
@@ -169,7 +169,7 @@
               '#f4e7d7',
               '#f4e7d7',
               '#f4e7d7',
-              '#f4e7d7'           ]
+              '#f4e7d7']
           }],
         },
         options: {
