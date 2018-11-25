@@ -237,11 +237,11 @@ function employeeSalesGraph(r) {
         label: 'Sales Summary',
         data: employeeSalesArray,
         backgroundColor: [
-          'rgb(244, 231, 215)',
-          'rgb(244, 231, 215)',
-          'rgb(244, 231, 215)',
-          'rgb(244, 231, 215)',
-          'rgb(244, 231, 215)',
+          'rgb(209, 168, 39)',
+           'rgb(209, 168, 39)',
+           'rgb(209, 168, 39)',
+           'rgb(209, 168, 39)',
+           'rgb(209, 168, 39)',
         ]
       }]
     },
