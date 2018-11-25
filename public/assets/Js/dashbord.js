@@ -3,68 +3,24 @@ let endDate = moment().format("YYYY-MM-DD")
 let period = 'today'
 let timeTotalArray = []
 
-document.querySelector('#todayDate').innerHTML=`Based on ${startDate}`
+// Puts the Date on the Page below Navbar
+document.querySelector('#todayDate').innerHTML = `Based on ${startDate}`
 
 // Fetch all of the sales data
 function breweryData() {
   fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
     .then(r => r.json())
     .then(r => {
-      console.log(r)
       hourSalesGraph(r)
       employeeSalesGraph(r)
-      
+      topTenList(r)
+      salesGoalGraph(r)
+
     })
     .catch(e => console.log(e))
 }
 
 breweryData()
-
-// doughnut tooltip plugin
-Chart.pluginService.register({
-  beforeRender: function (chart) {
-    if (chart.config.options.showAllTooltips) {
-      // create an array of tooltips
-      // we can't use the chart tooltip because there is only one tooltip per chart
-      chart.pluginTooltips = [];
-      chart.config.data.datasets.forEach(function (dataset, i) {
-        chart.getDatasetMeta(i).data.forEach(function (sector, j) {
-          chart.pluginTooltips.push(new Chart.Tooltip({
-            _chart: chart.chart,
-            _chartInstance: chart,
-            _data: chart.data,
-            _options: chart.options.tooltips,
-            _active: [sector]
-          }, chart));
-        });
-      });
-
-      // turn off normal tooltips
-      chart.options.tooltips.enabled = false;
-    }
-  },
-  afterDraw: function (chart, easing) {
-    if (chart.config.options.showAllTooltips) {
-      // we don't want the permanent tooltips to animate, so don't do anything till the animation runs atleast once
-      if (!chart.allTooltipsOnce) {
-        if (easing !== 1)
-          return;
-        chart.allTooltipsOnce = true;
-      }
-
-      // turn on tooltips
-      chart.options.tooltips.enabled = true;
-      Chart.helpers.each(chart.pluginTooltips, function (tooltip) {
-        tooltip.initialize();
-        tooltip.update();
-        // we don't actually need this since we are not animating tooltips
-        tooltip.pivot();
-        tooltip.transition(easing).draw();
-      });
-      chart.options.tooltips.enabled = false;
-    }
-  }
-});
 
 //Hours Sales Graph
 function hourSalesGraph(r) {
@@ -182,7 +138,6 @@ function hourSalesGraph(r) {
   })
 }
 
-
 // Employee Sales Summary Graph
 function employeeSalesGraph(r) {
 
@@ -190,14 +145,14 @@ function employeeSalesGraph(r) {
   let employeeSalesArray = []
   let employeeSalesMaster = []
 
-  // Creates the Measurement Array for the Fetch Date Range
+  // Creates the Employee Array for the Fetch Date Range
   r.forEach(item => {
     if (employeeArray.includes(item.Employee.full_name) === false) {
       employeeArray.push(item.Employee.full_name)
     }
   })
 
-  // Based on the Measurement Array Name it sums up total Sales
+  // Based on the Employee Array Name it sums up total Sales
   for (let i = 0; i < employeeArray.length; i++) {
     let x = 0
     r.forEach(item => {
@@ -238,10 +193,10 @@ function employeeSalesGraph(r) {
         data: employeeSalesArray,
         backgroundColor: [
           'rgb(209, 168, 39)',
-           'rgb(209, 168, 39)',
-           'rgb(209, 168, 39)',
-           'rgb(209, 168, 39)',
-           'rgb(209, 168, 39)',
+          'rgb(209, 168, 39)',
+          'rgb(209, 168, 39)',
+          'rgb(209, 168, 39)',
+          'rgb(209, 168, 39)',
         ]
       }]
     },
@@ -269,22 +224,150 @@ function employeeSalesGraph(r) {
   })
 }
 
-// Sales Goals
-let targetSales = document.getElementById("salesGoals");
-let salesGoals = new Chart(targetSales, {
-  type: 'doughnut',
-  data: {
-    labels: ["Current Sales", "Monthly Goal"],
-    datasets: [{
-      label: 'Sales by Employee',
-      data: [15000, 40000],
-      backgroundColor: [
-        'rgb(209, 168, 39)',
-        'rgb(161, 187, 208)'
-      ]
-    }]
-  },
-  options: {
-    showAllTooltips: true
+// Top Ten Items Sold List
+function topTenList(r) {
+
+  let beerItemArray = []
+  let beerItemSalesArray = []
+  let beerItemMeasurementArray = []
+  let beerItemCostOzArray = []
+  let beerItemMaster = []
+
+  // Creates the Beer Array 
+  r.forEach(item => {
+    if (beerItemArray.includes(item.Product.name) === false) {
+      beerItemArray.push(item.Product.name)
+      beerItemCostOzArray.push(item.Product.cpu_keg / 124)
+    }
+  })
+
+  // Based on the Beer Array Name it sums up total Sales
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (beerItemArray[i] === item.Product.name) {
+        x += item.cost
+      }
+    })
+    beerItemSalesArray.push(Math.round((x * 100)) / 100)
   }
-});
+
+  // Based on the Beer Array Name it sums up total Oz
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = 0
+    r.forEach(item => {
+      if (beerItemArray[i] === item.Product.name) {
+        x += item.total_oz
+      }
+    })
+    beerItemMeasurementArray.push(Math.round(x / 16))
+  }
+
+  // Puts both arrays into an Object
+  for (let i = 0; i < beerItemArray.length; i++) {
+    let x = {
+      name: beerItemArray[i],
+      sales: beerItemSalesArray[i],
+      cpu_pint: beerItemCostOzArray[i],
+      total_qty: beerItemMeasurementArray[i]
+    }
+    beerItemMaster.push(x)
+  }
+
+  // Sorts Array of objects to highest to lowest
+  beerItemMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+
+
+  // Creates the HTML List off the Master Beer Item List Top 10
+  for (let i = 0; i <= 9; i++) {
+    let tableItem = document.createElement('tr')
+    tableItem.innerHTML = `
+    <td>${beerItemMaster[i].name}</td>
+    <td>${beerItemMaster[i].total_qty}</td>
+    <td>$${beerItemMaster[i].sales}</td>
+    <td>$${Math.round((beerItemMaster[i].cpu_pint * beerItemMaster[i].total_qty) * 100) / 100}</td>`
+
+    document.querySelector('#tableItems').appendChild(tableItem)
+  }
+}
+
+// Sales Goal Graph
+function salesGoalGraph(r) {
+
+  // Finding the Total Sales
+  let totalSales = 0
+  r.forEach(item => {
+    totalSales += item.cost
+  })
+
+  fetch("/goals")
+    .then(d => d.json())
+    .then(d => {
+
+      let totalGoalSales = 0
+
+      // Start Date to Pull From
+      let y = moment(startDate, "YYYY-MM-DD").startOf("month").format("YYYY-MM-DD")
+
+      // How many days between the start Date and End Date
+      let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
+
+      d.forEach(goal => {
+        if (y === goal.Date) {
+          totalGoalSales = goal.day_average_sales_goal * dayDiff
+
+          let percentageGoal = Math.round(totalSales / totalGoalSales * 100) / 100
+
+          let diffpercentageGoal = 0
+
+          if (percentageGoal <= 1) {
+            diffpercentageGoal = Math.round((1 - percentageGoal) * 100) / 100
+          }
+
+          let targetSales = document.getElementById("salesGoals");
+          let salesGoals = new Chart(targetSales, {
+            type: 'horizontalBar',
+            data: {
+              datasets: [
+                {
+                  label: 'Goal Acheived',
+                  data: [percentageGoal],
+                  backgroundColor: 'rgb(209, 168, 39)' // green
+                },
+                {
+                  label: 'Goal Left',
+                  data: [diffpercentageGoal],
+                  backgroundColor: 'rgb(161, 187, 208)' // yellow
+                }
+              ]
+            },
+            options: {
+              scales: {
+                xAxes: [{
+                  stacked: true,
+                  ticks: {
+                    beginAtZero: true,
+                    steps: .10,
+                    stepValue: .5,
+                    max: 1,
+                  }
+                }],
+                yAxes: [{
+                  stacked: true,
+                  ticks: {
+                    beginAtZero: true,
+                    steps: 10,
+                    stepValue: 5,
+                    max: 100
+                  }
+                }]
+              }
+            }
+          })
+        }
+      })
+    })
+    .catch(e => console.log(e))
+}
+
+
