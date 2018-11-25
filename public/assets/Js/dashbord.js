@@ -11,10 +11,10 @@ function breweryData() {
   fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
     .then(r => r.json())
     .then(r => {
-      console.log(r)
       hourSalesGraph(r)
       employeeSalesGraph(r)
-      topFiveList(r)
+      topTenList(r)
+      salesGoalGraph(r)
 
     })
     .catch(e => console.log(e))
@@ -224,8 +224,8 @@ function employeeSalesGraph(r) {
   })
 }
 
-// Top Five Items Sold List
-function topFiveList(r) {
+// Top Ten Items Sold List
+function topTenList(r) {
 
   let beerItemArray = []
   let beerItemSalesArray = []
@@ -273,41 +273,101 @@ function topFiveList(r) {
     }
     beerItemMaster.push(x)
   }
-  
+
   // Sorts Array of objects to highest to lowest
   beerItemMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
 
 
-// Creates the HTML List off the Master Beer Item List Top 5
-  for(let i =0; i<=4;i++){
-    let tableItem =document.createElement('tr')
-    tableItem.innerHTML=`
+  // Creates the HTML List off the Master Beer Item List Top 10
+  for (let i = 0; i <= 9; i++) {
+    let tableItem = document.createElement('tr')
+    tableItem.innerHTML = `
     <td>${beerItemMaster[i].name}</td>
     <td>${beerItemMaster[i].total_qty}</td>
     <td>$${beerItemMaster[i].sales}</td>
-    <td>$${Math.round((beerItemMaster[i].cpu_pint * beerItemMaster[i].total_qty)*100)/100}</td>`
+    <td>$${Math.round((beerItemMaster[i].cpu_pint * beerItemMaster[i].total_qty) * 100) / 100}</td>`
 
     document.querySelector('#tableItems').appendChild(tableItem)
   }
 }
 
+// Sales Goal Graph
+function salesGoalGraph(r) {
 
-// Sales Goals
-let targetSales = document.getElementById("salesGoals");
-let salesGoals = new Chart(targetSales, {
-  type: 'doughnut',
-  data: {
-    labels: ["Current Sales", "Monthly Goal"],
-    datasets: [{
-      label: 'Sales by Employee',
-      data: [15000, 40000],
-      backgroundColor: [
-        'rgb(209, 168, 39)',
-        'rgb(161, 187, 208)'
-      ]
-    }]
-  },
-  options: {
-    showAllTooltips: true
-  }
-});
+  // Finding the Total Sales
+  let totalSales = 0
+  r.forEach(item => {
+    totalSales += item.cost
+  })
+
+  fetch("/goals")
+    .then(d => d.json())
+    .then(d => {
+
+      let totalGoalSales = 0
+
+      // Start Date to Pull From
+      let y = moment(startDate, "YYYY-MM-DD").startOf("month").format("YYYY-MM-DD")
+
+      // How many days between the start Date and End Date
+      let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
+
+      d.forEach(goal => {
+        if (y === goal.Date) {
+          totalGoalSales = goal.day_average_sales_goal * dayDiff
+
+          let percentageGoal = Math.round(totalSales / totalGoalSales * 100) / 100
+
+          let diffpercentageGoal = 0
+
+          if (percentageGoal <= 1) {
+            diffpercentageGoal = Math.round((1 - percentageGoal) * 100) / 100
+          }
+
+          let targetSales = document.getElementById("salesGoals");
+          let salesGoals = new Chart(targetSales, {
+            type: 'horizontalBar',
+            data: {
+              datasets: [
+                {
+                  label: 'Goal Acheived',
+                  data: [percentageGoal],
+                  backgroundColor: 'rgb(209, 168, 39)' // green
+                },
+                {
+                  label: 'Goal Left',
+                  data: [diffpercentageGoal],
+                  backgroundColor: 'rgb(161, 187, 208)' // yellow
+                }
+              ]
+            },
+            options: {
+              scales: {
+                xAxes: [{
+                  stacked: true,
+                  ticks: {
+                    beginAtZero: true,
+                    steps: .10,
+                    stepValue: .5,
+                    max: 1,
+                  }
+                }],
+                yAxes: [{
+                  stacked: true,
+                  ticks: {
+                    beginAtZero: true,
+                    steps: 10,
+                    stepValue: 5,
+                    max: 100
+                  }
+                }]
+              }
+            }
+          })
+        }
+      })
+    })
+    .catch(e => console.log(e))
+}
+
+
