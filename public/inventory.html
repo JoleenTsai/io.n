@@ -11,6 +11,19 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="./assets/CSS/styles.css">
   <title>io.n</title>
+  <style>
+    #invAlerts {
+      width: 100%;
+      height: 500px;
+      overflow: scroll;
+    }
+
+    #top5, #currentInv {
+      width: 100%;
+      height: 500px;
+      overflow: scroll;
+    }
+  </style>
 </head>
 
 <body>
@@ -58,32 +71,142 @@
       <!-- main content -->
       <div class="mainContent center-align">
         <div class="card col s12 m6 l5">
-          <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
-          </div>
-          <div class="card-content">
-            <span class="card-title activator grey-text text-darken-4">Inventory Alerts</span>
+          <div class="card-content" id="invAlerts">
+            <span class="card-title activator grey-text text-darken-4">Inventory Alerts<i class="material-icons right">more_vert</i></span>
+            <div class="row">
+              <div class="col s12">
+                <div class="card blue-grey darken-1">
+                  <div class="card-content white-text">
+                    <span class="card-title">Example Alert</span>
+                    <p>Garrett is the best salesperson ever.</p>
+                  </div>
+                  <div class="card-action">
+                    <a href="#">Relative Employees Link</a>
+                    <a href="#">Relative Sales Link</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col s12">
+                <div class="card blue-grey darken-1">
+                  <div class="card-content white-text">
+                    <span class="card-title">Example Alert</span>
+                    <p>Radley is the second best salesperson ever.</p>
+                  </div>
+                  <div class="card-action">
+                    <a href="#">Relative Employees Link</a>
+                    <a href="#">Relative Sales Link</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col s12">
+                <div class="card blue-grey darken-1">
+                  <div class="card-content white-text">
+                    <span class="card-title">Example Alert</span>
+                    <p>Radley is the second best salesperson ever.</p>
+                  </div>
+                  <div class="card-action">
+                    <a href="#">Relative Employees Link</a>
+                    <a href="#">Relative Sales Link</a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
+            <!-- insert table/graph/etc here -->
           </div>
-          <div class="card-content">
+          <div class="card-content" id="top5">
             <span class="card-title activator grey-text text-darken-4">Top Five Items Sold</span>
+            <p><a href="#">Detailed Report</a></p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Units Sold</th>
+                  <th>Profit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Git Lager</td>
+                  <td>500 pints</td>
+                  <td>$2,540.32</td>
+                </tr>
+                <tr>
+                  <td>API IPA</td>
+                  <td>325 pints</td>
+                  <td>$1,441.53</td>
+                </tr>
+                <tr>
+                  <td>Fruit Loop</td>
+                  <td>400 pints</td>
+                  <td>$1,935.48</td>
+                </tr>
+                <tr>
+                  <td>Nodemon</td>
+                  <td>425 pints</td>
+                  <td>$1,885.08</td>
+                </tr>
+                <tr>
+                  <td>Express</td>
+                  <td>470 pints</td>
+                  <td>$1,895.16</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
+            <!-- insert table/graph/etc here -->
           </div>
-          <div class="card-content">
+          <div class="card-content" id="currentInv">
             <span class="card-title activator grey-text text-darken-4">Current Inventory</span>
+            <p><a href="#">Detailed Report</a></p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Units Sold</th>
+                  <th>Profit</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>Git Lager</td>
+                  <td>500 pints</td>
+                  <td>$2,540.32</td>
+                </tr>
+                <tr>
+                  <td>API IPA</td>
+                  <td>325 pints</td>
+                  <td>$1,441.53</td>
+                </tr>
+                <tr>
+                  <td>Fruit Loop</td>
+                  <td>400 pints</td>
+                  <td>$1,935.48</td>
+                </tr>
+                <tr>
+                  <td>Nodemon</td>
+                  <td>425 pints</td>
+                  <td>$1,885.08</td>
+                </tr>
+                <tr>
+                  <td>Express</td>
+                  <td>470 pints</td>
+                  <td>$1,895.16</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
         <div class="card col s12 m6 l5">
           <div class="card-image waves-effect waves-block waves-light">
-            <img class="activator" src="#">
+            <!-- insert table/graph/etc here -->
           </div>
           <div class="card-content">
             <span class="card-title activator grey-text text-darken-4">Receive/Update Inventory</span>
@@ -91,7 +214,12 @@
         </div>
       </div>
       <!-- Compiled and minified JavaScript -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <!-- Compiled and minified JavaScript -->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+      <script src="./assets/Js/sales.js"></script>
       <script src="./assets/Js/session.js"></script>
 </body>
 
