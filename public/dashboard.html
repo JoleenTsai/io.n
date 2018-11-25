@@ -51,41 +51,13 @@
           <li>
             <a class="grey-text darken-4" onclick="logout()">Logout</a>
           </li>
+          <li>
+          </li>
         </ul>
-
-
-        <div class="date-filter">
-          <div class="row">
-            <label style="margin-top: 4px; color: #d1a827;">Date Filter</label>
-            <select onchange="dateAutoFill()" id="period" style="margin-top: 4px" class="browser-default">
-              <option value="today">Today</option>
-              <option value="yesterday">Yesterday</option>
-              <option value="lastWeek">Last Week</option>
-              <option value="lastMonth">Last Month</option>
-              <option value="lastYear">Last Year</option>
-            </select>
-          </div>
-
-          <div class="row">
-            <p style="color: #d1a827;">Choose Date:</p>
-            <div class="s12 input-field">
-              <input onchange="customDate()" id="startDate" type="date" class="datepicker" placeholder="">
-              <label for="startDate" style="color: #d1a827;">Start Date</label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="s12 input-field">
-              <input onchange="customDate()" id="endDate" type="date" class="datepicker" placeholder="">
-              <label for="endDate" style="color: #d1a827;">End Date</label>
-            </div>
-          </div>
-          <div class="row" id="invalidDate" style="color:red"></div>
-        </div>
+      
+        <p style="margin: 10px; font-size: 10px" id="todayDate"></p>
       </div>
-    </div>
-
-
+      </div>
 
     <!-- cards -->
     <div class="col s10 l10">

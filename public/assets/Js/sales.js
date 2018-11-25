@@ -11,9 +11,10 @@ function breweryData() {
   fetch(`/sales/${startDate.split("-").join("")}-${endDate.split("-").join("")}`)
     .then(r => r.json())
     .then(r => {
+      console.log(r)
       hourSalesGraph(r)
       topItemsGraph(r)
-      employeeSalesGraph(r)
+      measurementSalesGraph(r)
       salesGoalGraph(r)
     })
     .catch(e => console.log(e))
@@ -296,59 +297,60 @@ function topItemsGraph(r) {
   })
 }
 
-// Employee Sales Summary Graph
-function employeeSalesGraph(r) {
+// Measurement Sales Graph
+function measurementSalesGraph(r) {
 
-  let employeeArray = []
-  let employeeSalesArray = []
-  let employeeSalesMaster = []
+  let measurementArray = []
+  let measurementSalesArray = []
+  let measurementSalesMaster = []
 
-  // Creates the Beer Item Array for the Fetch Date Range
+  // Creates the Measurement Array for the Fetch Date Range
   r.forEach(item => {
-    if (employeeArray.includes(item.Employee.full_name) === false) {
-      employeeArray.push(item.Employee.full_name)
+    if (measurementArray.includes(item.product_type) === false) {
+      measurementArray.push(item.product_type)
     }
   })
 
-  // Based on the Beer Item Array Name it sums up total Sales
-  for (let i = 0; i < employeeArray.length; i++) {
+
+  // Based on the Measurement Array Name it sums up total Sales
+  for (let i = 0; i < measurementArray.length; i++) {
     let x = 0
     r.forEach(item => {
-      if (employeeArray[i] === item.Employee.full_name) {
+      if (measurementArray[i] === item.product_type) {
         x += item.cost
       }
     })
-    employeeSalesArray.push(x)
+    measurementSalesArray.push(x)
   }
 
   // Puts both arrays into an Object
-  for (let i = 0; i < employeeArray.length; i++) {
+  for (let i = 0; i < measurementArray.length; i++) {
     let x = {
-      name: employeeArray[i],
-      sales: Math.round(employeeSalesArray[i] * 100) / 100
+      name: measurementArray[i],
+      sales: Math.round(measurementSalesArray[i] * 100) / 100
     }
-    employeeSalesMaster.push(x)
+    measurementSalesMaster.push(x)
   }
 
   // Sorts Array of objects to highest to lowest
-  employeeSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
+  measurementSalesMaster.sort((a, b) => a.sales < b.sales ? 1 : -1)
 
   // Pulls aprat the object into Arrays for Graph
-  employeeArray = []
-  employeeSalesArray = []
-  employeeSalesMaster.map(item => {
-    employeeArray.push(item.name)
-    employeeSalesArray.push(item.sales)
+  measurementArray = []
+  measurementSalesArray = []
+  measurementSalesMaster.map(item => {
+    measurementArray.push(item.name)
+    measurementSalesArray.push(item.sales)
   })
 
-  let salesSummary = document.getElementById("employeeSales");
+  let salesSummary = document.getElementById("measurementSales");
   let salesSumm = new Chart(salesSummary, {
     type: 'bar',
     data: {
-      labels: employeeArray,
+      labels: measurementArray,
       datasets: [{
         label: 'Sales Summary',
-        data: employeeSalesArray,
+        data: measurementSalesArray,
         backgroundColor: [
           'rgb(244, 231, 215)',
           'rgb(244, 231, 215)',
