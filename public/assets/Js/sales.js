@@ -297,7 +297,7 @@ function topItemsGraph(r) {
   })
 }
 
-// Employee Sales Summary Graph
+// Measurement Sales Graph
 function measurementSalesGraph(r) {
 
   let measurementArray = []
