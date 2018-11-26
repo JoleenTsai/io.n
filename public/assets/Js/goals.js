@@ -154,7 +154,7 @@ function yearlyGoalsGraph(r) {
     
     d.forEach(goal => {
         if (y === goal.Date) {
-          yearSalesGoals = goal.day_average_qty_goal * dayDiff
+          yearSalesGoals = goal.day_average_sales_goal * dayDiff
 
         let percentageGoal = Math.round(yearSales / yearSalesGoals *100)/100
         
@@ -206,7 +206,7 @@ function employeeSalesYTDGraph(r) {
     let y = moment(startDate, "YYYY-MM-DD").startOf("year").format("YYYY-MM-DD")
 
     // How many days between the start Date and End Date
-    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
+    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "day")
     
     d.forEach(goal => {
         if (y === goal.Date) {
