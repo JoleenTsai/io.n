@@ -13,7 +13,7 @@ function breweryData() {
     .then(r => {
       quarterlyGoalsGraph(r)
       yearlyGoalsGraph(r)
-      // employeeSalesYTDGraph(r)
+      employeeSalesYTDGraph(r)
       salesGoalGraph(r)
     })
     .catch(e => console.log(e))
@@ -93,7 +93,7 @@ function quarterlyGoalsGraph(r) {
     let y = moment(startDate, "YYYY-MM-DD").startOf("quarter").format("YYYY-MM-DD")
 
     // How many days between the start Date and End Date
-    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "months")
+    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "quarters")
     
     d.forEach(goal => {
         if (y === goal.Date) {
@@ -117,7 +117,7 @@ function quarterlyGoalsGraph(r) {
                 data: [percentageGoal, diffpercentageGoal],
                 backgroundColor: [
                   'rgb(209, 168, 39)',
-                  'rgb(161, 187, 208)'
+                  'rgb(244, 231, 215)'
                 ]
               }]
             },
@@ -150,11 +150,11 @@ function yearlyGoalsGraph(r) {
     let y = moment(startDate, "YYYY-MM-DD").startOf("year").format("YYYY-MM-DD")
 
     // How many days between the start Date and End Date
-    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
+    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "day")
     
     d.forEach(goal => {
         if (y === goal.Date) {
-          yearSalesGoals = goal.day_average_sales_goal * dayDiff
+          yearSalesGoals = goal.day_average_qty_goal * dayDiff
 
         let percentageGoal = Math.round(yearSales / yearSalesGoals *100)/100
         
@@ -174,7 +174,63 @@ function yearlyGoalsGraph(r) {
                 data: [percentageGoal, diffpercentageGoal],
                 backgroundColor: [
                   'rgb(209, 168, 39)',
-                  'rgb(161, 187, 208)'
+                  'rgb(104, 118, 130)'
+                ]
+              }]
+            },
+            options: {
+              showAllTooltips: true
+            }
+          })
+        }
+      })
+    })
+    .catch(e => console.log(e))
+}
+// Employee Sales YTD Graph
+function employeeSalesYTDGraph(r) {
+
+  // Find Employee Sales YTD
+  let empYTDSales = 0
+  r.forEach(item => {
+    empYTDSales += item.cost
+  })
+
+  fetch("/goals")
+  .then(d => d.json())
+  .then(d => {
+
+    let empSalesYTD = 0
+  
+    // Start Date to Pull From
+    let y = moment(startDate, "YYYY-MM-DD").startOf("year").format("YYYY-MM-DD")
+
+    // How many days between the start Date and End Date
+    let dayDiff = 1 + moment(endDate, "YYYY-MM-DD").diff(moment(startDate, "YYYY-MM-DD"), "days")
+    
+    d.forEach(goal => {
+        if (y === goal.Date) {
+          empSalesYTD = goal.day_average_sales_goal * dayDiff
+
+        let percentageGoal = Math.round(empYTDSales / empSalesYTD *100)/100
+        
+        let diffpercentageGoal = 0
+
+        if(percentageGoal<=1){
+          diffpercentageGoal = Math.round((1- percentageGoal)*100)/100
+        }
+
+          let yGoals = document.getElementById("employeeSalesYTD");
+          let yearlyGoals = new Chart(yGoals, {
+            type: 'doughnut',
+            data: {
+              labels: ["Goal Acheived", "Goal Left"],
+              datasets: [{
+                label: 'Sales by Employee',
+                data: [percentageGoal, diffpercentageGoal],
+                backgroundColor: [
+                  'rgb(244, 231, 215)',
+                  'rgb(104, 118, 130)'
                 ]
               }]
             },
