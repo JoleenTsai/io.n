@@ -14,7 +14,7 @@ module.exports = app => {
   })
 
   // inventory by period
-  app.get('/inventory/:period-:custom1-:custom2', (req, res) => {
+  app.get('/inventory/:custom1-:custom2', (req, res) => {
     db.Inventories.findAll({
       where: {
         date: {
