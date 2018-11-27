@@ -1,3 +1,21 @@
+// Fill 'current inventory' card table with data
+let curInvDate = moment().startOf('month').format('YYYYMMDD')
+
+fetch(`/inventory/${curInvDate}-${curInvDate}`)
+  .then(r => r.json())
+  .then(currentInventory => {
+    console.log(currentInventory)
+    document.getElementById('curInvTableBody').innerHTML = ''
+    currentInventory.forEach(invItem => {
+      let tableRow = document.createElement('tr')
+      tableRow.innerHTML = `
+        <td>${invItem.Product.name}</td><td>${invItem.inventory_kegs} Kegs</td>
+      `
+      document.getElementById('curInvTableBody').appendChild(tableRow)
+    })
+  })
+
+
 function getInvName() {
   fetch('/products')
     .then(r => r.json())
