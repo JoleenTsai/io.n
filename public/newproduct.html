@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="./assets/CSS/reset.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/CSS/styles.css">
+    <title>io.n</title>
+    <style>
+        #invAlerts {
+      width: 100%;
+      height: 500px;
+      overflow: scroll;
+    }
+
+    #top5, #currentInv {
+      width: 100%;
+      height: 500px;
+      overflow: scroll;
+    }
+  </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <nav class="white blue-text">
+            <div class="nav-wrapper">
+                <a href="./dashboard.html" class="brand-logo logo-text"><img src="./assets/images/lot17a-logo-small.png" alt="lot17a" id="brandLogo"></a>
+                <ul class="right">
+                    <li><a href="#" class="nav-links valign-wrapper"><span id="userFirst">user</span>&nbsp;<span id="userLast">name</span>&nbsp;<img src="" alt="user photo" id="userPhoto"></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- sidenav -->
+    <div class="row">
+        <div class="navbar-fixed col s2 m2 l2">
+            <div style="height: 1px;">
+                <ul class="section table-of-contents">
+                    <li>
+                        <a href="dashboard.html" class="">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="inventory.html" class="active">Inventory</a>
+                    </li>
+                    <li>
+                        <a href="sales.html" class="">Sales</a>
+                    </li>
+                    <li>
+                        <a href="employees.html" class="">Employees</a>
+                    </li>
+                    <li>
+                        <a href="goals.html" class="">Goals</a>
+                    </li>
+                    <li>
+                        <a class="grey-text darken-4" onclick="logout()">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- main content -->
+        <div class="col s10 l10">
+            <div class="row">
+
+                <div class="col s12">
+                    <div class="card ">
+                        <div class="card-content grey-text text-darken-4 ">
+                            <span class="card-title">Add Item</span>
+                            <form>
+                                <div class="row">
+                                    <input id="name" type="text" class="validate" placeholder="SetTimeout">
+                                    <label for="name">Name</label>
+                                </div>
+
+                                <div class="row">
+                                    <input id="type" type="text" class="validate" placeholder="Barrel-Aged Stout">
+                                    <label for="type">Beer Type</label>
+                                </div>
+
+                                <div class="row">
+                                    <input id="abv" type="text" class="validate" placeholder="6.0">
+                                    <label for="abv">ABV</label>
+                                </div>
+
+                                <div class="row">
+                                    <input id="status" type="text" class="validate" placeholder="Brewing">
+                                    <label for="status">Status</label>
+                                </div>
+                                <div class="row">
+                                    <input id="cpu" type="text" class="validate" placeholder="100.00">
+                                    <label for="cpu">Cost Per Keg</label>
+                                </div>
+                                <div class="row">
+                                    <input id="costKeg" type="text" class="validate" placeholder="700.00">
+                                    <label for="costKeg">Price of Keg</label>
+                                </div>
+                                <div class="row">
+                                    <input id="costGal" type="text" class="validate" placeholder="40.00">
+                                    <label for="costGal">Price of Gal</label>
+                                </div>
+                                <div class="row">
+                                    <input id="costGrowler" type="text" class="validate" placeholder="20.00">
+                                    <label for="costGrowler">Price of Growler</label>
+                                </div>
+                                <div class="row">
+                                    <input id="costPint" type="text" class="validate" placeholder="8.00">
+                                    <label for="costPint">Price of Pint</label>
+                                </div>
+                                <div class="row">
+                                    <input id="costTaster" type="text" class="validate" placeholder="4.00">
+                                    <label for="costTaster">Price of Pint</label>
+                                </div>
+                                <div class="row">
+                                    <input id="costOz" type="text" class="validate" placeholder="0.5">
+                                    <label for="costOz">Price per Oz</label>
+                                </div>
+
+                                <div class="row">
+                                    <a class="waves-effect waves-light btn" onclick='SubmitProduct()'>Submit</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- Compiled and minified JavaScript -->
+        <!-- Compiled and minified JavaScript -->
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+        <script type="text/javascript">
+
+        function SubmitProduct(){
+
+            fetch(`/products`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                body: JSON.stringify({
+                    name: document.querySelector('#name').value,
+                    type: document.querySelector('#type').value,
+                    abv: document.querySelector('#abv').value,
+                    status: document.querySelector('#status').value,
+                    cpu_keg: document.querySelector('#cpu').value,
+                    cost_keg: document.querySelector('#costKeg').value,
+                    cost_gallon: document.querySelector('#costGal').value,
+                    cost_growler: document.querySelector('#costGrowler').value,
+                    cost_pint: document.querySelector('#costPint').value,
+                    cost_taster: document.querySelector('#costTaster').value,
+                    cost_oz: document.querySelector('#costOz').value
+                })
+            })
+            .then(r => {
+                console.log(r)
+                window.location = './newProduct.html'
+            })
+        }
+            
+            </script>
+        <script src="./assets/Js/session.js"></script>
+</body>
+
+</html>
