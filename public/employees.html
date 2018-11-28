@@ -10,6 +10,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="./assets/CSS/styles.css">
+  <style>
+      .EmpCardSize{
+      width: 100%;
+      height: 600px;
+      overflow: auto;
+    }
+  </style>
   <title>io.n</title>
 </head>
 
@@ -57,7 +64,7 @@
       <!-- main content -->
       <div class="mainContent center-align">
         <div class="card col s12 m6 l5">
-          <div class="card-content">
+          <div class="card-content EmpCardSize">
             <span class="card-title activator grey-text text-darken-4">Today's Employees</span>
             <ul class="collection">
               <li class="collection-item avatar" id="collectionLine">
@@ -89,7 +96,7 @@
           </div>
         </div>
         <div class="card col s12 m6 l5">
-          <div class="card-content">
+          <div class="card-content EmpCardSize">
             <span class="card-title activator grey-text text-darken-4">Sales Leaders</span>
             <canvas id="employeeSales" width="400" height="458"></canvas>
           </div>
