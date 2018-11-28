@@ -1,10 +1,12 @@
 // Fill 'current inventory' card table with data
 let curInvDate = moment().startOf('month').format('YYYYMMDD')
+let curInvArr
+let productArr
 
 fetch(`/inventory/${curInvDate}-${curInvDate}`)
   .then(r => r.json())
   .then(currentInventory => {
-    console.log(currentInventory)
+    curInvArr = currentInventory
     document.getElementById('curInvTableBody').innerHTML = ''
     currentInventory.forEach(invItem => {
       let tableRow = document.createElement('tr')
@@ -14,6 +16,28 @@ fetch(`/inventory/${curInvDate}-${curInvDate}`)
       document.getElementById('curInvTableBody').appendChild(tableRow)
     })
   })
+
+// Get "Processing" products
+
+fetch('/products')
+  .then(r => r.json())
+  .then(products => {
+    productArr = products
+    products.forEach(product => {
+      if (product.status === 'Brewing'){
+        let procTableRow = document.createElement('tr')
+        procTableRow.innerHTML = `
+        <td>${product.name}</td><td><a class="waves-effect waves-light btn-small" onclick="processingDone(${product.id})"><i class="material-icons">done</i></a></td>`
+        document.getElementById('invProcessingTable').appendChild(procTableRow)
+      }
+    })
+  })
+
+// "Done" processing button
+function processingDone(productId) {
+  console.log('done processing #: ' + productId)
+  }
+
 
 
 function getInvName() {
