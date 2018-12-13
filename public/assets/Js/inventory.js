@@ -14,8 +14,30 @@ fetch(`/inventory/${curInvDate}-${curInvDate}`)
         <td>${invItem.Product.name}</td><td>${invItem.inventory_kegs} Kegs</td>
       `
       document.getElementById('curInvTableBody').appendChild(tableRow)
+
+      // >> TODO <<
+      //    if < 1 keg, add card to alerts
+      if (invItem.inventory_kegs < 1) {
+        let invAlertCard = document.createElement('div')
+        invAlertCard.className = 'col s12'
+        invAlertCard.innerHTML = `<div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Low Inventory</span>
+              <p>${invItem.Product.name} below 1 Keg</p>
+            </div>
+            <div class="card-action">
+              <a href="#">Restock Inventory</a>
+            </div>
+          </div>
+        `
+        document.getElementById('invAlerts').appendChild(invAlertCard)
+      }
     })
   })
+
+  // >> TODO <<
+  //    restock function
+
 
 // Get "Processing" products
 
