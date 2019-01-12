@@ -36,8 +36,8 @@ module.exports = app => {
 
     // Update sales transaction retroactively
     app.put('/sales/:type-:fromdate-:todate', (req, res) => {
-        const fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
-        const toDate = moment(req.params.todate).format('YYYY-MM-DD')
+        let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
+        let toDate = moment(req.params.todate).format('YYYY-MM-DD')
         switch (req.params.type) {
             case 'move':
                 // Move whole month
