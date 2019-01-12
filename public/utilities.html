@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="./assets/CSS/reset.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <link rel="stylesheet" href="./assets/CSS/styles.css">
+    <style>
+        input {
+        margin-bottom: 2px!important;
+        height: unset!important;
+    }
+    </style>
+    <title>io.n</title>
+</head>
+
+<body>
+    <div class="navbar">
+        <nav class="white blue-text">
+            <div class="nav-wrapper">
+                <a href="./dashboard.html" class="left brand-logo logo-text"><img src="./assets/images/lot17a-logo-small.png" alt="lot17a" id="brandLogo"></a>
+                <ul class="right">
+                    <li><a href="#" class="nav-links valign-wrapper">&nbsp;<span id="userFirst">user</span>&nbsp; <span id="userLast">name</span>&nbsp;
+                            <img src="" alt="user photo" id="userPhoto"></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- sidenav -->
+    <div class="row">
+        <div class="navbar-fixed col s2 m2 l2 .d-sm-none .d-md-block">
+            <div style="height: 1px;">
+                <ul class="section table-of-contents">
+                    <li>
+                        <a href="dashboard.html" class="">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="inventory.html" class="">Inventory</a>
+                    </li>
+                    <li>
+                        <a href="sales.html" class="">Sales</a>
+                    </li>
+                    <li>
+                        <a href="employees.html" class="">Employees</a>
+                    </li>
+                    <li>
+                        <a href="goals.html" class="">Goals</a>
+                    </li>
+                    <li>
+                        <a class="grey-text darken-4" onclick="logout()">Logout</a>
+                    </li>
+                    <li>
+                    </li>
+                    <p style="margin: 10px; font-size: 10px" id="todayDate"></p>
+                </ul>
+
+            </div>
+        </div>
+
+        <!-- cards -->
+        <div class="col s10 l10">
+            <!-- main content -->
+            <div class="row mainContent center-align">
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Check sales:
+                            <form>
+                                <label for="checksales">From:</label>
+                                <input class='input' type="date" name="checksales" id="checkSalesDate" value='2017-01-01'>
+                            </form>
+                            <button onclick="checkSales('day')">Check Day</button>
+                            <button onclick="checkSales('month')">Check Month</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Move Seed Data (whole month):
+                            <form>
+                                <label for="movefrom">From:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="movefrom" id="moveFromDate" value='2017-01-01'>
+                                <label for="moveto">To:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="moveto" id="moveToDate" value='2019-01-01'>
+                            </form>
+                            <button onclick="moveSales()">Seed</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Copy Seed Data (single day):
+                            <form>
+                                <label for="copyfrom">From:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="copyfrom" id="copyFromDate" value='2016-12-01'>
+                                <label for="copyto">To:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="copyto" id="copyToDate" value='2018-12-01'>
+                            </form>
+                            <button id='seedSales' onclick="copySales()">Seed</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m12 l12">
+                    <div class="card">
+
+                        <div class="card-content">
+                            Sales Data:
+                            <div id="salesData">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>
+    <!-- <script src="./assets/Js/dashbord.js"></script> -->
+    <script src="./assets/Js/session.js"></script>
+    <script>
+        function changeCheckDate(elem) {
+            document.getElementById('checkSalesDate').value = elem.value
+        }
+        function checkSales(period) {
+            event.preventDefault()
+            let startDate
+            let endDate 
+            switch (period) {
+                case 'day':
+                    startDate = moment(document.getElementById('checkSalesDate').value).format("YYYYMMDD")
+                    endDate = moment(document.getElementById('checkSalesDate').value).format("YYYYMMDD")
+                    break
+                case 'month':
+                    startDate = moment(document.getElementById('checkSalesDate').value).startOf('month').format("YYYYMMDD")
+                    endDate = moment(document.getElementById('checkSalesDate').value).endOf('month').format("YYYYMMDD")
+                    break
+                default:
+                    break
+            }
+            fetch(`/sales/${startDate}-${endDate}`)
+                .then(r => r.json())
+                .then(r => {
+                    document.getElementById('salesData').innerHTML = ''
+                    r.forEach(tran => {
+                        const line = document.createElement('p')
+                        line.innerHTML = `${tran.transaction_date} ${tran.transaction_time} $${tran.cost}`
+                        document.getElementById('salesData').appendChild(line)
+                    })
+                })
+                .catch(e => console.log(e))
+        }
+        function moveSales() {
+            event.preventDefault()
+            const fromDate = moment(document.getElementById('moveFromDate').value).startOf('month').format("YYYYMMDD")
+            const toDate = moment(document.getElementById('moveToDate').value).startOf('month').format("YYYYMMDD")
+            fetch(`/sales/move-${fromDate}-${toDate}`, { method: 'PUT' })
+                .then(r => console.log(r))
+                .catch(e => console.log(e))
+        }
+        function copySales() {
+            event.preventDefault()
+            const fromDate = moment(document.getElementById('copyFromDate').value).format("YYYYMMDD")
+            const toDate = moment(document.getElementById('copyToDate').value).format("YYYYMMDD")
+            fetch(`/sales/copy-${fromDate}-${toDate}`, { method: 'PUT' })
+                .then(r => console.log(r))
+                .catch(e => console.log(e))
+        }
+    </script>
+
+</body>
+
+</html>
