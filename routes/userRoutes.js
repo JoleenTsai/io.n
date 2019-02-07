@@ -1,6 +1,29 @@
 const db = require('../models')
 
 module.exports = app => {
+
+    //add user
+    app.post('/users', (req, res) => {
+        //check for exisiting user first
+        db.Users.findOne({
+            where: {
+                user_name: req.body.user_name
+            }
+        }).then(r => {
+            //if not found, create
+            if(!r) {
+                db.Users.create(req.body)
+                .then(r => res.json(r))
+                .catch(e => console.log(e))
+            }
+            else {
+                console.log(r)
+                res.json('already created')
+            }
+        }).catch(e =>  console.log(e))
+    })
+
+    //Login
     app.get('/login/:user-:password', (req, res) => {
         db.Users.findOne({
             where: {

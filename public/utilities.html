@@ -85,7 +85,7 @@
                 <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
-                            Move Seed Data (whole month):
+                            Move Sales Data (whole month):
                             <form>
                                 <label for="movefrom">From:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="movefrom" id="moveFromDate" value='2017-01-01'>
@@ -100,7 +100,7 @@
                 <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
-                            Copy Seed Data (single day):
+                            Copy Sales Data (single day):
                             <form>
                                 <label for="copyfrom">From:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="copyfrom" id="copyFromDate" value='2016-12-01'>
@@ -108,6 +108,15 @@
                                 <input onchange='changeCheckDate(this)' type="date" name="copyto" id="copyToDate" value='2018-12-01'>
                             </form>
                             <button id='seedSales' onclick="copySales()">Seed</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Create Demo User:
+                            <button id='createDemoUser' onclick="createDemoUser()">Seed</button>
                         </div>
                     </div>
                 </div>
@@ -182,6 +191,26 @@
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
         }
+                function createDemoUser() {
+
+                        fetch(`/users`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json; charset=utf-8'
+                            },
+                            body: JSON.stringify({
+                                first_name: 'Demo',
+                                last_name: 'User',
+                                user_name: 'Demo',
+                                password: 'demo',
+                                email: 'demo'
+                            })
+                        })
+                        .then(r => r.json())
+                            .then(user => {
+                                console.log(user)
+                            })
+                    }
     </script>
 
 </body>
