@@ -104,11 +104,23 @@
                             Copy Sales Data (single day):
                             <form>
                                 <label for="copyfrom">From:</label>
-                                <input onchange='changeCheckDate(this)' type="date" name="copyfrom" id="copyFromDate" value='2016-12-01'>
+                                <input onchange='changeCheckDate(this)' type="date" name="copyfrom" id="copyFromDate" value='2017-12-01'>
                                 <label for="copyto">To:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="copyto" id="copyToDate" value='2018-12-01'>
                             </form>
-                            <button id='seedSales' onclick="copySales()">Seed</button>
+                            <button onclick="copySales()">Seed</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Delete Sales Data (single day):
+                            <form>
+                                <label for="deletefrom">From:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="deletefrom" id="deleteFromDate" value='2017-01-01'>
+                            </form>
+                            <button onclick="deleteSales()">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -151,7 +163,7 @@
         function checkSales(period) {
             event.preventDefault()
             let startDate
-            let endDate 
+            let endDate
             switch (period) {
                 case 'day':
                     startDate = moment(document.getElementById('checkSalesDate').value).format("YYYYMMDD")
@@ -192,26 +204,34 @@
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
         }
-                function createDemoUser() {
+        function deleteSales() {
+            event.preventDefault()
+            const fromDate = moment(document.getElementById('deleteFromDate').value).format("YYYYMMDD")
+            fetch(`/sales/${fromDate}`, { method: 'delete' })
+                .then(r => console.log(r))
+                .catch(e => console.log(e))
+        }
+        function createDemoUser() {
 
-                        fetch(`/users`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json; charset=utf-8'
-                            },
-                            body: JSON.stringify({
-                                first_name: 'Demo',
-                                last_name: 'User',
-                                user_name: 'demo',
-                                password: 'demo',
-                                email: 'demo'
-                            })
-                        })
-                        .then(r => r.json())
-                            .then(user => {
-                                console.log(user)
-                            })
-                    }
+            fetch(`/users`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8'
+                },
+                body: JSON.stringify({
+                    first_name: 'Demo',
+                    last_name: 'User',
+                    user_name: 'demo',
+                    password: 'demo',
+                    email: 'demo'
+                })
+            })
+                .then(r => r.json())
+                .then(user => {
+                    console.log(user)
+                })
+                .catch(e => console.log(e))
+        }
     </script>
 
 </body>
