@@ -94,10 +94,10 @@ module.exports = app => {
     })
 
     //Delete sale
-    app.delete("/sales/:id", function (req, res) {
-        db.Products.destroy({
+    app.delete("/sales/:date", function (req, res) {
+        db.Sales.destroy({
             where: {
-                id: req.params.id
+                transaction_date: req.params.date
             }
         })
             .then(r => res.sendStatus(200))
