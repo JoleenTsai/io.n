@@ -13,6 +13,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
     <link rel="stylesheet" href="./assets/CSS/styles.css">
     <style>
+        .mainContent {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .card {
+            margin: 2px;
+            padding: 2px;
+        }
+        .card-content {
+            padding: 10px 4px !important;
+        }
         input {
         margin-bottom: 2px!important;
         height: unset!important;
@@ -86,14 +97,14 @@
                 <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
-                            Move Sales Data (whole month):
+                            Move Sales Data (month):
                             <form>
                                 <label for="movefrom">From:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="movefrom" id="moveFromDate" value='2017-01-01'>
                                 <label for="moveto">To:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="moveto" id="moveToDate" value='2019-01-01'>
                             </form>
-                            <button onclick="moveSales()">Seed</button>
+                            <button onclick="moveSales()">Move</button>
                         </div>
                     </div>
                 </div>
@@ -101,21 +112,21 @@
                 <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
-                            Copy Sales Data (single day):
+                            Copy Sales Data (day):
                             <form>
                                 <label for="copyfrom">From:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="copyfrom" id="copyFromDate" value='2017-12-01'>
                                 <label for="copyto">To:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="copyto" id="copyToDate" value='2018-12-01'>
                             </form>
-                            <button onclick="copySales()">Seed</button>
+                            <button onclick="copySales()">Copy</button>
                         </div>
                     </div>
                 </div>
                 <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
-                            Delete Sales Data (single day):
+                            Delete Sales Data (day):
                             <form>
                                 <label for="deletefrom">From:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="deletefrom" id="deleteFromDate" value='2017-01-01'>
@@ -124,6 +135,49 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Check goals:
+                            <form>
+                                <label for="checkgoals">From:</label>
+                                <input class='input' type="date" name="checkgoals" id="checkGoalsDate" value='2017-01-01'>
+                            </form>
+                            <button onclick="checkGoals()">Check</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Move Goals Data (month):
+                            <form>
+                                <label for="goalmovefrom">From:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="goalmovefrom" id="moveGoalsFromDate" value='2017-01-01'>
+                                <label for="goalmoveto">To:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="goalmoveto" id="moveGoalsToDate" value='2019-01-01'>
+                            </form>
+                            <button onclick="moveSales()">Move</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Move Inventory Data (month):
+                            <form>
+                                <label for="invmovefrom">From:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="invmovefrom" id="invMoveFromDate" value='2017-01-01'>
+                                <label for="invmoveto">To:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="invmoveto" id="invMoveToDate" value='2019-01-01'>
+                            </form>
+                            <button onclick="moveSales()">Move</button>
+                        </div>
+                    </div>
+                </div> -->
 
                 <div class="col s12 m3 l3">
                     <div class="card">
@@ -138,7 +192,7 @@
                     <div class="card">
 
                         <div class="card-content">
-                            Sales Data:
+                            Data:
                             <div id="salesData">
 
                             </div>
@@ -159,6 +213,7 @@
     <script>
         function changeCheckDate(elem) {
             document.getElementById('checkSalesDate').value = elem.value
+            document.getElementById('checkGoalsDate').value = elem.value
         }
         function checkSales(period) {
             event.preventDefault()
@@ -188,29 +243,64 @@
                 })
                 .catch(e => console.log(e))
         }
+
         function moveSales() {
             event.preventDefault()
             const fromDate = moment(document.getElementById('moveFromDate').value).startOf('month').format("YYYYMMDD")
             const toDate = moment(document.getElementById('moveToDate').value).startOf('month').format("YYYYMMDD")
-            fetch(`/sales/move-${fromDate}-${toDate}`, { method: 'PUT' })
+            fetch(`/seed/sales/move/${fromDate}-${toDate}`, { method: 'PUT' })
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
         }
+
         function copySales() {
             event.preventDefault()
             const fromDate = moment(document.getElementById('copyFromDate').value).format("YYYYMMDD")
             const toDate = moment(document.getElementById('copyToDate').value).format("YYYYMMDD")
-            fetch(`/sales/copy-${fromDate}-${toDate}`, { method: 'PUT' })
+            fetch(`seed/sales/copy/${fromDate}-${toDate}`, { method: 'PUT' })
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
         }
         function deleteSales() {
             event.preventDefault()
             const fromDate = moment(document.getElementById('deleteFromDate').value).format("YYYYMMDD")
-            fetch(`/sales/${fromDate}`, { method: 'delete' })
+            fetch(`seed/sales/delete/${fromDate}`, { method: 'delete' })
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
         }
+
+        function checkGoals() {
+            event.preventDefault()
+            theDate = moment(document.getElementById('checkGoalsDate').value).format("YYYYMMDD")
+            fetch(`/goals/${theDate}`)
+                .then(r => r.json())
+                .then(goal => {
+                    document.getElementById('salesData').innerHTML = ''
+                        const line = document.createElement('p')
+                        line.innerHTML = `${goal.Date}: ${goal.day_average_sales_goal}`
+                        document.getElementById('salesData').appendChild(line)
+                })
+                .catch(e => console.log(e))
+        }
+
+        function moveGoals() {
+            event.preventDefault()
+            const fromDate = moment(document.getElementById('moveGoalsFromDate').value).startOf('month').format("YYYYMMDD")
+            const toDate = moment(document.getElementById('moveGoalsToDate').value).startOf('month').format("YYYYMMDD")
+            fetch(`seed/goals/move/${fromDate}-${toDate}`, { method: 'PUT' })
+                .then(r => console.log(r))
+                .catch(e => console.log(e))
+        }
+
+        // function moveInventory() {
+        //     event.preventDefault()
+        //     const fromDate = moment(document.getElementById('invMoveFromDate').value).startOf('month').format("YYYYMMDD")
+        //     const toDate = moment(document.getElementById('invMoveToDate').value).startOf('month').format("YYYYMMDD")
+        //     fetch(`/seed/inventory/move/${fromDate}-${toDate}`, { method: 'PUT' })
+        //         .then(r => console.log(r))
+        //         .catch(e => console.log(e))
+        // }
+
         function createDemoUser() {
 
             fetch(`/users`, {

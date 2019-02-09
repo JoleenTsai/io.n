@@ -1,5 +1,6 @@
 const db = require('../models')
 const Op = db.Sequelize.Op
+const moment = require('moment')
 
 module.exports = app => {
     // All Goals
@@ -14,7 +15,7 @@ module.exports = app => {
     app.get('/goals/:date', (req, res) => {
         db.Goals.findOne({
             where: {
-                date: moment(req.params.date).format('YYYY-MM-DD')
+                Date: moment(req.params.date).format('YYYY-MM-DD')
             },
         })
             .then(goal => res.json(goal))

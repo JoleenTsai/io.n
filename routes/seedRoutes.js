@@ -1,11 +1,12 @@
 const db = require('../models')
+const moment = require('moment')
 
 module.exports = app => {
 
     // GOALS    /////////////////////
 
     // Move goals month
-    app.put('seed/goals/move/:fromdate-:todate', (req, res) => {
+    app.put('/seed/goals/move/:fromdate-:todate', (req, res) => {
         let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
         let toDate = moment(req.params.todate).format('YYYY-MM-DD')
         const days = moment(req.params.todate).endOf('month').format('DD')
@@ -30,7 +31,7 @@ module.exports = app => {
     // INVENTORY	////////////////
 
     // Move inventory month
-    app.put('seed/inventory/move/:fromdate-:todate', (req, res) => {
+    app.put('/seed/inventory/move/:fromdate-:todate', (req, res) => {
         let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
         let toDate = moment(req.params.todate).format('YYYY-MM-DD')
         // Move whole month
@@ -54,7 +55,7 @@ module.exports = app => {
     })
 
     // Delete invenotory day
-    app.delete("seed/inventory/delete/:date", function (req, res) {
+    app.delete("/seed/inventory/delete/:date", function (req, res) {
         db.Sales.destroy({
             where: {
                 date: req.params.date
@@ -68,7 +69,7 @@ module.exports = app => {
 
 
     // Copy sales day
-    app.put('seed/sales/copy/:fromdate-:todate', (req, res) => {
+    app.put('/seed/sales/copy/:fromdate-:todate', (req, res) => {
         let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
         let toDate = moment(req.params.todate).format('YYYY-MM-DD')
                 res.sendStatus(200)
@@ -99,7 +100,7 @@ module.exports = app => {
     })
 
     // Move Sales Month
-    app.put('seed/sales/move/:fromdate-:todate', (req, res) => {
+    app.put('/seed/sales/move/:fromdate-:todate', (req, res) => {
         let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
         let toDate = moment(req.params.todate).format('YYYY-MM-DD')
         const days = moment(req.params.todate).endOf('month').format('DD')
@@ -122,7 +123,7 @@ module.exports = app => {
     })
 
     // Delete Sales Day
-    app.delete("seed/sales/delete/:date", function (req, res) {
+    app.delete("/seed/sales/delete/:date", function (req, res) {
         db.Sales.destroy({
             where: {
                 transaction_date: req.params.date
