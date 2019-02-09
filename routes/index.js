@@ -5,4 +5,5 @@ module.exports = (app) => {
     require('./productRoutes')(app)
     require('./salesRoutes')(app)
     require('./userRoutes')(app)
+    require('./seedRoutes')(app)
 }
