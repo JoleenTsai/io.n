@@ -18,7 +18,8 @@
             flex-wrap: wrap;
         }
         .card {
-            margin: 2px;
+            height: 98%;
+            margin: 2px !important;
             padding: 2px;
         }
         .card-content {
@@ -123,13 +124,14 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
                             Delete Sales Data (day):
                             <form>
                                 <label for="deletefrom">From:</label>
-                                <input onchange='changeCheckDate(this)' type="date" name="deletefrom" id="deleteFromDate" value='2017-01-01'>
+                                <input onchange='changeCheckDate(this)' type="date" name="deletefrom" id="deleteSalesFromDate" value='2017-01-01'>
                             </form>
                             <button onclick="deleteSales()">Delete</button>
                         </div>
@@ -159,25 +161,52 @@
                                 <label for="goalmoveto">To:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="goalmoveto" id="moveGoalsToDate" value='2019-01-01'>
                             </form>
-                            <button onclick="moveSales()">Move</button>
+                            <button onclick="moveGoals()">Move</button>
                         </div>
                     </div>
                 </div>
 
-                <!-- <div class="col s12 m3 l3">
+                <div class="col s12 m3 l3">
                     <div class="card">
                         <div class="card-content">
-                            Move Inventory Data (month):
+                            Check inventory:
+                            <form>
+                                <label for="checkinv">From:</label>
+                                <input class='input' type="date" name="checkinv" id="checkInvDate" value='2017-01-01'>
+                            </form>
+                            <button onclick="checkInv('day')">Check Day</button>
+                            <button onclick="checkInv('month')">Check Month</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Move Inventory (month):
                             <form>
                                 <label for="invmovefrom">From:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="invmovefrom" id="invMoveFromDate" value='2017-01-01'>
                                 <label for="invmoveto">To:</label>
                                 <input onchange='changeCheckDate(this)' type="date" name="invmoveto" id="invMoveToDate" value='2019-01-01'>
                             </form>
-                            <button onclick="moveSales()">Move</button>
+                            <button onclick="moveInventory()">Move</button>
                         </div>
                     </div>
-                </div> -->
+                </div>
+
+                <div class="col s12 m3 l3">
+                    <div class="card">
+                        <div class="card-content">
+                            Delete Inventory (day):
+                            <form>
+                                <label for="invdeletefrom">From:</label>
+                                <input onchange='changeCheckDate(this)' type="date" name="invdeletefrom" id="deleteInvFromDate" value='2017-01-01'>
+                            </form>
+                            <button onclick="deleteInv()">Delete</button>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="col s12 m3 l3">
                     <div class="card">
@@ -193,7 +222,7 @@
 
                         <div class="card-content">
                             Data:
-                            <div id="salesData">
+                            <div id="resData">
 
                             </div>
                         </div>
@@ -214,6 +243,7 @@
         function changeCheckDate(elem) {
             document.getElementById('checkSalesDate').value = elem.value
             document.getElementById('checkGoalsDate').value = elem.value
+            document.getElementById('checkInvDate').value = elem.value
         }
         function checkSales(period) {
             event.preventDefault()
@@ -234,11 +264,11 @@
             fetch(`/sales/${startDate}-${endDate}`)
                 .then(r => r.json())
                 .then(r => {
-                    document.getElementById('salesData').innerHTML = ''
+                    document.getElementById('resData').innerHTML = ''
                     r.forEach(tran => {
                         const line = document.createElement('p')
                         line.innerHTML = `${tran.transaction_date} ${tran.transaction_time} $${tran.cost}`
-                        document.getElementById('salesData').appendChild(line)
+                        document.getElementById('resData').appendChild(line)
                     })
                 })
                 .catch(e => console.log(e))
@@ -263,7 +293,7 @@
         }
         function deleteSales() {
             event.preventDefault()
-            const fromDate = moment(document.getElementById('deleteFromDate').value).format("YYYYMMDD")
+            const fromDate = moment(document.getElementById('deleteSalesFromDate').value).format("YYYYMMDD")
             fetch(`seed/sales/delete/${fromDate}`, { method: 'delete' })
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
@@ -275,10 +305,10 @@
             fetch(`/goals/${theDate}`)
                 .then(r => r.json())
                 .then(goal => {
-                    document.getElementById('salesData').innerHTML = ''
-                        const line = document.createElement('p')
-                        line.innerHTML = `${goal.Date}: ${goal.day_average_sales_goal}`
-                        document.getElementById('salesData').appendChild(line)
+                    document.getElementById('resData').innerHTML = ''
+                    const line = document.createElement('p')
+                    line.innerHTML = `${goal.Date}: ${goal.day_average_sales_goal}`
+                    document.getElementById('resData').appendChild(line)
                 })
                 .catch(e => console.log(e))
         }
@@ -287,22 +317,58 @@
             event.preventDefault()
             const fromDate = moment(document.getElementById('moveGoalsFromDate').value).startOf('month').format("YYYYMMDD")
             const toDate = moment(document.getElementById('moveGoalsToDate').value).startOf('month').format("YYYYMMDD")
-            fetch(`seed/goals/move/${fromDate}-${toDate}`, { method: 'PUT' })
+            fetch(`/seed/goals/move/${fromDate}-${toDate}`, { method: 'PUT' })
                 .then(r => console.log(r))
                 .catch(e => console.log(e))
         }
 
-        // function moveInventory() {
-        //     event.preventDefault()
-        //     const fromDate = moment(document.getElementById('invMoveFromDate').value).startOf('month').format("YYYYMMDD")
-        //     const toDate = moment(document.getElementById('invMoveToDate').value).startOf('month').format("YYYYMMDD")
-        //     fetch(`/seed/inventory/move/${fromDate}-${toDate}`, { method: 'PUT' })
-        //         .then(r => console.log(r))
-        //         .catch(e => console.log(e))
-        // }
+        function checkInv(period) {
+            event.preventDefault()
+            let startDate
+            let endDate
+            switch (period) {
+                case 'day':
+                    startDate = moment(document.getElementById('checkInvDate').value).format("YYYYMMDD")
+                    endDate = moment(document.getElementById('checkInvDate').value).format("YYYYMMDD")
+                    break
+                case 'month':
+                    startDate = moment(document.getElementById('checkInvDate').value).startOf('month').format("YYYYMMDD")
+                    endDate = moment(document.getElementById('checkInvDate').value).endOf('month').format("YYYYMMDD")
+                    break
+                default:
+                    break
+            }
+            fetch(`/inventory/${startDate}-${endDate}`)
+                .then(r => r.json())
+                .then(r => {
+                    document.getElementById('resData').innerHTML = ''
+                    r.forEach(inv => {
+                        const line = document.createElement('p')
+                        line.innerHTML = `${inv.date} id: ${inv.beer_id} kegs:${inv.inventory_kegs}`
+                        document.getElementById('resData').appendChild(line)
+                    })
+                })
+                .catch(e => console.log(e))
+        }
+
+        function moveInventory() {
+            event.preventDefault()
+            const fromDate = moment(document.getElementById('invMoveFromDate').value).startOf('month').format("YYYYMMDD")
+            const toDate = moment(document.getElementById('invMoveToDate').value).startOf('month').format("YYYYMMDD")
+            fetch(`/seed/inventory/move/${fromDate}-${toDate}`, { method: 'PUT' })
+                .then(r => console.log(r))
+                .catch(e => console.log(e))
+        }
+
+        function deleteInv() {
+            event.preventDefault()
+            const fromDate = moment(document.getElementById('deleteInvFromDate').value).format("YYYYMMDD")
+            fetch(`seed/inventory/delete/${fromDate}`, { method: 'delete' })
+                .then(r => console.log(r))
+                .catch(e => console.log(e))
+        }
 
         function createDemoUser() {
-
             fetch(`/users`, {
                 method: 'POST',
                 headers: {

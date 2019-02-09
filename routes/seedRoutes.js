@@ -1,9 +1,13 @@
+//
+// Routes to manipulate seed data for demonstration purposes
+//
 const db = require('../models')
 const moment = require('moment')
 
 module.exports = app => {
 
-    // GOALS    /////////////////////
+    // GOALS
+    ////////
 
     // Move goals month
     app.put('/seed/goals/move/:fromdate-:todate', (req, res) => {
@@ -16,25 +20,25 @@ module.exports = app => {
             toDate = moment(toDate).date(i).format('YYYY-MM-DD')
             db.Goals.update(
                 {
-                    date: toDate
+                    Date: toDate
                 },
                 {
                     where: {
-                        date: fromDate
+                        Date: fromDate
                     },
-                    fields: ['date']
+                    fields: ['Date']
                 })
                 .then(r => console.log(r)).catch(e => console.log(e))
         }
     })
 
-    // INVENTORY	////////////////
+    // INVENTORY
+    ////////////
 
     // Move inventory month
     app.put('/seed/inventory/move/:fromdate-:todate', (req, res) => {
         let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
         let toDate = moment(req.params.todate).format('YYYY-MM-DD')
-        // Move whole month
         const days = moment(req.params.todate).endOf('month').format('DD')
         res.sendStatus(200)
         for (let i = 1; i <= days; i++) {
@@ -54,9 +58,9 @@ module.exports = app => {
         }
     })
 
-    // Delete invenotory day
+    // Delete inventory day
     app.delete("/seed/inventory/delete/:date", function (req, res) {
-        db.Sales.destroy({
+        db.Inventories.destroy({
             where: {
                 date: req.params.date
             }
@@ -65,9 +69,9 @@ module.exports = app => {
             .catch(e => console.log(e))
     })
 
-    // SALES    ///////////////////
-
-
+    // SALES
+    ////////
+    
     // Copy sales day
     app.put('/seed/sales/copy/:fromdate-:todate', (req, res) => {
         let fromDate = moment(req.params.fromdate).format('YYYY-MM-DD')
