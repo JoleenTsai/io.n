@@ -14,9 +14,15 @@ fetch(`/inventory/${curInvDate}-${curInvDate}`)
         <td>${invItem.Product.name}</td><td>${invItem.inventory_kegs} Kegs</td>
       `
       document.getElementById('curInvTableBody').appendChild(tableRow)
+        /* <TODO>
+        //    if beer is processing,
+        //      add to processing card 
+        //    else
+        //      if < 1 keg
+        //        add to alerts cards
+        </TODO> */
 
-      // >> TODO <<
-      //    if < 1 keg, add card to alerts
+        //  if < 1 keg, add card to alerts
       if (invItem.inventory_kegs < 1) {
         let invAlertCard = document.createElement('div')
         invAlertCard.className = 'col s12'
@@ -37,10 +43,10 @@ fetch(`/inventory/${curInvDate}-${curInvDate}`)
 
   // >> TODO <<
   //    restock function
-
+  //    update beer status to processing
+  //    fetch inventory/ update cards.
 
 // Get "Processing" products
-
 fetch('/products')
   .then(r => r.json())
   .then(products => {
@@ -57,6 +63,13 @@ fetch('/products')
 
 // "Done" processing button
 function processingDone(productId) {
+
+  // TO DO:
+  // check if processing beer is in current inventory
+  //      add to 4 kegs to inventory quanity
+  //      else, 
+  //          add to inventory with 4 kegs
+   
   console.log('done processing #: ' + productId)
   }
 
