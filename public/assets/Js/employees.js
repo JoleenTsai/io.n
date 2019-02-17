@@ -93,4 +93,9 @@ r.forEach(item => {
   })
 }
 
+// display current week on schedule
+let scheduleSun = moment().startOf('week').format('MMM D')
+let scheduleSat = moment().endOf('week').format('MMM D, YYYY')
+document.getElementById('scheduleDate').innerHTML = `Sun ${scheduleSun} - Sat ${scheduleSat}`
+
 breweryData()
